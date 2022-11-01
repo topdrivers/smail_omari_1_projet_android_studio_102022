@@ -1,4 +1,12 @@
 <resources>
-    <string name="app_name">Go4Lunch</string>
+    <string name="app_name">I\'m hugry !</string>
     <string name="google_map_api_key">AIzaSyDBrw5T0cNzqnSGQW6vA_QADtMBa1t-sR8</string>
+
+    <!-- Used in NavigationDrawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="application_name">Go4Lunch</string>
+    <string name="name_profil">John Smith</string>
+    <string name="email_profil">jsmith1337@gmail.com</string>
+
 </resources>

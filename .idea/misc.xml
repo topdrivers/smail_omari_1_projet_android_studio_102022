@@ -3,8 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable-hdpi/baseline_restaurant_menu_24.xml" value="0.179" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable-hdpi/baseline_settings_24.xml" value="0.179" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/baseline_map_24.xml" value="0.1835" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/baseline_people_18.xml" value="0.179" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/baseline_power_settings_new_24.xml" value="0.179" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/baseline_restaurant_menu_24.xml" value="0.179" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/baseline_settings_24.xml" value="0.179" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/baseline_view_list_24.xml" value="0.1" />
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout/activity_main.xml" value="0.15260416666666668" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout/activity_main_nav_header.xml" value="0.1" />
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout/fragment_maps.xml" value="0.1" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/menu/activity_main_menu_drawer.xml" value="0.15260416666666668" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/menu/bottom_naviagation_menu.xml" value="0.17083333333333334" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.1" />
       </map>
     </option>
   </component>

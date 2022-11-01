@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height"
+    android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/activity_main_header_profile_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/marign_end_image_profile"
+        android:layout_marginBottom="@dimen/margin_image_profile"
+        android:src="@drawable/image_profil"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/activity_main_nav_header_title"
+         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/activity_main_nav_header_name_text_view"
+        android:text="@string/name_profil"
+        app:layout_constraintStart_toEndOf="@+id/activity_main_header_profile_image"
+        app:layout_constraintTop_toTopOf="@+id/activity_main_header_profile_image"
+        android:layout_margin="@dimen/margin_text_view_name"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/activity_main_nav_header_email_text_view"
+        android:text="@string/email_profil"
+        app:layout_constraintStart_toStartOf="@+id/activity_main_nav_header_name_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_nav_header_name_text_view"
+        android:layout_margin="@dimen/margin_text_view_name"
+        />
+
+
+    <ImageView
+        android:id="@+id/image_view_menu_drawer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/reunion" />
+
+    <TextView
+        android:id="@+id/activity_main_nav_header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/application_name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/main_text_menu_drawer"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/image_view_menu_drawer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/image_view_menu_drawer"
+        app:layout_constraintTop_toTopOf="@+id/image_view_menu_drawer" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
