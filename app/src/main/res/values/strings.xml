@@ -8,5 +8,10 @@
     <string name="application_name">Go4Lunch</string>
     <string name="name_profil">John Smith</string>
     <string name="email_profil">jsmith1337@gmail.com</string>
+    <string name="connection_succeed">Authentification réussie</string>
+    <string name="error_authentication_canceled">erreur authentification annulée</string>
+    <string name="error_no_internet">erreur pas de réseau internet</string>
+    <string name="error_unknown_error">erreur inconnue</string>
+    <string name="permission_rationale_location">This app needs location permission to function properly</string>
 
 </resources>

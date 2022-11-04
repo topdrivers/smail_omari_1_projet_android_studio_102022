@@ -122,6 +122,8 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
         // to handle the case where the user grants the permission. See the documentation
         // for ActivityCompat#requestPermissions for more details.
 
+
+
         mFusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 mLocation = task.getResult();

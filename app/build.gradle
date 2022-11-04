@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -25,6 +26,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildFeatures {
+        viewBinding true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -39,7 +43,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.0'
     implementation 'androidx.annotation:annotation:1.5.0'
-    implementation 'com.android.tools:annotations:31.0.0-alpha06'
+
     implementation 'com.google.code.gson:gson:2.10'
     implementation 'com.google.android.gms:play-services-drive:17.0.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -56,6 +60,20 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 
+
+    // Import the Firebase BoM
+    implementation platform ('com.google.firebase:firebase-bom:31.0.2')
+
+
+
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
+
+    implementation 'com.jakewharton:butterknife:10.2.3'
+
+    //Easy-permissions
+    implementation 'pub.devrel:easypermissions:3.0.0'
 
 
     testImplementation 'junit:junit:4.13.2'
