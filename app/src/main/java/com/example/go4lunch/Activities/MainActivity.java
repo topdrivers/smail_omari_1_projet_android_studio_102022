@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.go4lunch.Fragments.MapsFragment;
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DisposableObserver<RestaurantPlace> disposable;
     final MutableLiveData<Boolean> hasPermissions = new MutableLiveData<>();
 
+    private ActionBarDrawerToggle toggle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         configureToolBar();
         configureDrawerLayout();
         configureNavigationView();
-        handleClickNavDrawer();
+        //handleClickNavDrawer();
+        setupNavDrawer();
     }
 
 
@@ -91,8 +95,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupAppAccordingToPermissions();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.activity_main_menu_drawer, menu);
+        return true;
+    }
+
+    /**
+     * Navigation drawer setup
+     */
+    private void setupNavDrawer() {
+        /*
+        toggle = new ActionBarDrawerToggle(this, binding.activityMainDrawerLayout, R.string.Open_drawer_menu, R.string.Close_drawer_menu);
+        binding.activityMainDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+         */
+        //handleClickNavDrawer();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        return super.onOptionsItemSelected(item);
+    }
+/*
     @SuppressLint("NonConstantResourceId")
     private void handleClickNavDrawer() {
+        System.out.println("--------------------nav-------------------");
         binding.activityMainNaviationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.activity_main_your_lunch:
@@ -109,6 +140,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         });
     }
+
+ */
+
+
 
 
 
@@ -152,6 +187,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_settings:
                 break;
             case R.id.activity_main_logout:
+                System.out.println("------------------------------");
+                AuthUI.getInstance().signOut(getApplicationContext());
+
                 break;
             default:
                 break;

@@ -11,6 +11,7 @@
     <!--color used in the application-->
     <color name="coral">#fc7540</color>
     <color name="firebrick">#b50504</color>
-    <color name="orangeRed">#fc3f1b</color>
+    <color name="orange_red">#fc3f1b</color>
+    <color name="google_red">#e94235</color>
 
 </resources>

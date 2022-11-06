@@ -13,5 +13,19 @@
     <string name="error_no_internet">erreur pas de réseau internet</string>
     <string name="error_unknown_error">erreur inconnue</string>
     <string name="permission_rationale_location">This app needs location permission to function properly</string>
+    <string name="Open_drawer_menu">Ouvrir menu</string>
+    <string name="Close_drawer_menu">Fermer le menu</string>
+    <string name="details_restaurant_activity_image">content description image</string>
+    <string name="details_restaurant_activity_floating_button">content description floating action button</string>
+    <string name="activity_details_restaurant_name">L\'écluse</string>
+    <string name="restaurant_type">French Restaurant</string>
+    <string name="restaurant_address">12 rue du faubourg poissonnière</string>
+    <string name="button_to_call_the_restaurant">Appel restaurant par téléphone</string>
+    <string name="button_to_add_the_restaurant_to_the_favourite">Bouton j\'aime</string>
+    <string name="button_to_visit_the_website_of_the_restaurant">bouton lien vers site web</string>
+    <string name="call">CALL</string>
+    <string name="like">LIKE</string>
+    <string name="website">WEBSITE</string>
+    <string name="restaurant_tiret">-</string>
 
 </resources>
