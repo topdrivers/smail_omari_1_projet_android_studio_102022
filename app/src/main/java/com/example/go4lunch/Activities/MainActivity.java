@@ -44,6 +44,9 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -83,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         configureNavigationView();
         //handleClickNavDrawer();
         setupNavDrawer();
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
     }
 
 

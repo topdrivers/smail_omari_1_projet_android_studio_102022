@@ -59,6 +59,13 @@ dependencies {
     //Circle Image
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    //Facebook
+    implementation 'com.facebook.android:facebook-android-sdk:8.2.0'
+
+    //Unit test
+    testImplementation "org.mockito:mockito-core:4.0.0"
+
+
 
 
     // Import the Firebase BoM
