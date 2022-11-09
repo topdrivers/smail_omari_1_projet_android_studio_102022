@@ -1,26 +1,15 @@
-package com.example.go4lunch.Utils;
+package com.example.go4lunch.DataSource.RemoteData;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import com.example.go4lunch.DataSource.Models.RestaurantPlace;
 
-import com.example.go4lunch.BuildConfig;
-import com.example.go4lunch.Models.RestaurantPlace;
-import com.example.go4lunch.Models.Result;
-
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
-public class GithubStreams {
+public class RetrofitStreams {
     public static  PlaceService placeService;
 /*
     public GithubStreams(PlaceService placeService) {

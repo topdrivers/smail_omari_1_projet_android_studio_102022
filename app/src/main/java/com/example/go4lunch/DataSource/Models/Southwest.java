@@ -1,14 +1,12 @@
 
-package com.example.go4lunch.Models;
+package com.example.go4lunch.DataSource.Models;
 
 //import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 //@Generated("jsonschema2pojo")
-public class Location  {
+public class Southwest  {
 
     @SerializedName("lat")
     @Expose

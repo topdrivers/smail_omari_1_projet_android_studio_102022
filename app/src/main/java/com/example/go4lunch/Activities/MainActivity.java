@@ -19,7 +19,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Intent;
 import android.location.Location;
@@ -30,12 +29,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.go4lunch.DataSource.Models.RestaurantPlace;
 import com.example.go4lunch.Fragments.MapsFragment;
-import com.example.go4lunch.Models.RestaurantPlace;
 import com.example.go4lunch.R;
-import com.example.go4lunch.Utils.GithubStreams;
+import com.example.go4lunch.DataSource.RemoteData.RetrofitStreams;
+import com.example.go4lunch.ViewModel.RetrofitViewModel;
 import com.example.go4lunch.ViewModel.ViewModel;
 import com.example.go4lunch.databinding.ActivityMainBinding;
+import com.example.go4lunch.injection.Injection;
+import com.example.go4lunch.injection.ViewModelFactory;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActivityMainBinding binding;
     private static final int REQUEST_PERMISSIONS_LOCATION = 567;
     private ViewModel viewModel;
+
     //FOR DATA
     private DisposableObserver<RestaurantPlace> disposable;
     final MutableLiveData<Boolean> hasPermissions = new MutableLiveData<>();
@@ -79,16 +82,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         //viewModel = new ViewModelProvider(this).get(ViewModel.class);
-
         configureMapsFragment();
         configureToolBar();
         configureDrawerLayout();
         configureNavigationView();
+
         //handleClickNavDrawer();
         setupNavDrawer();
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
     }
+
 
 
 
@@ -367,29 +371,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setupAppAccordingToPermissions() {
 
-        if (hasPermissions.getValue()) {
+        if (hasPermissions.getValue() ) {
+            /*
+            if(retrofitViewModel!=null) {
+                System.out.println("----------viewmodel-------------" + retrofitViewModel);
+                retrofitViewModel.getResults();
+                System.out.println("--------------retrofit results--------" + retrofitViewModel.getResults());
+            }
+            System.out.println("-------------haspermission---------------");
 
-            System.out.println("-------------1fois------------------");
-            // 1.2 - Execute the stream subscribing to Observable defined inside GithubStream
-            this.disposable = GithubStreams.getPlaceResultsLiveData("48.550720,7.763412").subscribeWith(new DisposableObserver<RestaurantPlace>() {
-                @Override
-                public void onNext(RestaurantPlace restaurantPlace) {
-                    Log.e("TAG","On Next");
-                    // 1.3 - Update UI with list of users
-                    System.out.println("--------------esult"+restaurantPlace.getResults().get(1).getName());
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    Log.e("TAG","On Error"+Log.getStackTraceString(e));
-                }
-
-                @Override
-                public void onComplete() {
-                    Log.e("TAG","On Complete !!");
-                }
-            });
-            //observeLocation();
+             */
         } else {
 
             requestPermission();
@@ -398,31 +389,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-        observeLocation();
-        Location location = null;
-        location.setLongitude(48.550720);
-        location.setLatitude(7.763412);
-        System.out.println("--------------------------------");
 
-        // 1.2 - Execute the stream subscribing to Observable defined inside GithubStream
-        this.disposable = GithubStreams.getPlaceResultsLiveData(location.toString()).subscribeWith(new DisposableObserver<RestaurantPlace>() {
-            @Override
-            public void onNext(RestaurantPlace restaurantPlace) {
-                Log.e("TAG","On Next");
-                // 1.3 - Update UI with list of users
-                System.out.println("--------------esult"+restaurantPlace);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e("TAG","On Error"+Log.getStackTraceString(e));
-            }
-
-            @Override
-            public void onComplete() {
-                Log.e("TAG","On Complete !!");
-            }
-        });
     }
 
     private void disposeWhenDestroy(){

@@ -1,17 +1,12 @@
-package com.example.go4lunch.Utils;
+package com.example.go4lunch.DataSource.RemoteData;
 
-import com.example.go4lunch.Models.RestaurantPlace;
-import com.example.go4lunch.Models.Result;
-
-import java.util.List;
+import com.example.go4lunch.DataSource.Models.RestaurantPlace;
 
 import io.reactivex.Observable;
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface PlaceService {

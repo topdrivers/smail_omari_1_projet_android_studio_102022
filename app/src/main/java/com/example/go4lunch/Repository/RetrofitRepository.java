@@ -1,122 +1,49 @@
 package com.example.go4lunch.Repository;
 
 
-import static android.content.ContentValues.TAG;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.location.Location;
-import android.os.Looper;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import com.example.go4lunch.DataSource.Models.RestaurantPlace;
+import com.example.go4lunch.DataSource.RemoteData.RetrofitStreams;
+import com.example.go4lunch.DataSource.RemoteData.PlaceService;
 
-import com.example.go4lunch.Utils.PlaceService;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
+import io.reactivex.observers.DisposableObserver;
+import retrofit2.Retrofit;
 
 public class RetrofitRepository {
-    private final PlaceService placeService;
-    private static final float OFFICE_LONGITUDE = 2.3467211059168793f;
-    private static final float OFFICE_LATITUDE = 48.86501071160738f;
-    private static final int LOCATION_REQUEST_PROVIDER_IN_MS = 60000;
-    private static final float SMALLEST_DISPLACEMENT_THRESHOLD_METER = 50;
-    private static final String OFFICE = "Office";
+    //private final PlaceService placeService;
+    private DisposableObserver<RestaurantPlace> disposable;
 
-    private FusedLocationProviderClient fusedLocationProviderClient;
-    public final MutableLiveData<Location> locationMutableLiveData = new MutableLiveData<>();
-
-    private LocationCallback locationCallback;
-    private LocationRequest locationRequest;
 
     public RetrofitRepository(PlaceService placeService) {
-        this.placeService = placeService;
+        /*this.placeService = placeService;*/
     }
 
+    // --- GET ---
+    public DisposableObserver<RestaurantPlace> getResults(){
 
-    public int getRadius() {
-        return 500;
-    }
-
-    public LiveData<Location> getCurrentLocation() {
-        return locationMutableLiveData;
-    }
-
-
-    public Location getOfficeLocation() {
-        Location officeLocation = new Location(OFFICE);
-        officeLocation.setLongitude(OFFICE_LONGITUDE);
-        officeLocation.setLatitude(OFFICE_LATITUDE);
-        return officeLocation;
-    }
-
-    @SuppressLint("MissingPermission")
-    public void startLocationRequest(Context context, Activity activity) {
-
-        instantiateFusedLocationProviderClient(context);
-
-        getLastKnownLocation(activity);
-
-        setupLocationRequest();
-
-        createLocationCallback();
-
-        startLocationUpdates();
-    }
-
-    public void stopLocationUpdates() {
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-    }
-
-    private void instantiateFusedLocationProviderClient(Context context) {
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
-    }
-
-    @SuppressLint("MissingPermission")
-    private void getLastKnownLocation(Activity activity) {
-        fusedLocationProviderClient.getLastLocation()
-                .addOnSuccessListener(activity, location -> {
-                    if (location != null) {
-                        Log.i(TAG, "onSuccess: we got the last location", null);
-                    }
-                });
-    }
-
-    private void setupLocationRequest() {
-        locationRequest = LocationRequest.create();
-        locationRequest.setInterval(LOCATION_REQUEST_PROVIDER_IN_MS);
-        locationRequest.setSmallestDisplacement(SMALLEST_DISPLACEMENT_THRESHOLD_METER);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-
-    public void createLocationCallback() {
-        locationCallback = new LocationCallback() {
+        System.out.println("-------------1fois------------------");
+        // 1.2 - Execute the stream subscribing to Observable defined inside GithubStream
+        return RetrofitStreams.getPlaceResultsLiveData("48.550720,7.763412").subscribeWith(new DisposableObserver<RestaurantPlace>() {
             @Override
-            public void onLocationResult(LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-
-                if (locationResult == null) {
-                    return;
-                }
-
-                for (Location location : locationResult.getLocations()) {
-                    locationMutableLiveData.setValue(location);
-                }
+            public void onNext(RestaurantPlace restaurantPlace) {
+                Log.e("TAG","On Next");
+                // 1.3 - Update UI with list of users
+                System.out.println("--------------esult"+restaurantPlace.getResults().get(1).getName());
             }
-        };
-    }
 
-    @SuppressLint("MissingPermission")
-    private void startLocationUpdates() {
-        fusedLocationProviderClient.requestLocationUpdates(locationRequest,
-                locationCallback,
-                Looper.getMainLooper());
-    }
+            @Override
+            public void onError(Throwable e) {
+                Log.e("TAG","On Error"+Log.getStackTraceString(e));
+            }
 
+            @Override
+            public void onComplete() {
+                Log.e("TAG","On Complete !!");
+            }
+        });
+        //return disposable;
+
+    }
 
 }

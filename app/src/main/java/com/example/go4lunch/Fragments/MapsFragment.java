@@ -3,6 +3,7 @@ package com.example.go4lunch.Fragments;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -13,10 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.go4lunch.Models.RestaurantPlace;
-import com.example.go4lunch.Models.Result;
+import com.example.go4lunch.DataSource.Models.RestaurantPlace;
+import com.example.go4lunch.DataSource.Models.Result;
 import com.example.go4lunch.R;
-import com.example.go4lunch.Utils.GithubStreams;
+import com.example.go4lunch.DataSource.RemoteData.RetrofitStreams;
+import com.example.go4lunch.ViewModel.RetrofitViewModel;
+import com.example.go4lunch.injection.Injection;
+import com.example.go4lunch.injection.ViewModelFactory;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,8 +37,6 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
-import java.util.List;
-
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
@@ -42,6 +44,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
     private Location mLocation;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleMap mMap;
+    private RetrofitViewModel retrofitViewModel;
     //private final RetrofitRepository mRetrofitRepository = new RetrofitRepository(APIClient.getGoogleMapAPI());
     int radius = 1000;
     private static final float DEFAULT_ZOOM = 15;
@@ -66,9 +69,18 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+        configureViewModel();
         //FloatingActionButton floatingActionButton = view.findViewById(R.id.fab_location);
         //floatingActionButton.setOnClickListener(v -> getCurrentLocation());
     }
+
+    private void configureViewModel(){
+        ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(requireActivity());
+        retrofitViewModel = new ViewModelProvider(this, mViewModelFactory).get(RetrofitViewModel.class);
+        retrofitViewModel.init();
+        retrofitViewModel.getResults();
+    }
+
 
     private void getCurrentLocation() {
         Dexter.withContext(getActivity())
@@ -133,7 +145,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
                 // -------------------
 
 
-                this.disposable = GithubStreams.getPlaceResultsLiveData(mLocation.getLongitude()+","+mLocation.getLatitude()).subscribeWith(new DisposableObserver<RestaurantPlace>() {
+                this.disposable = RetrofitStreams.getPlaceResultsLiveData(mLocation.getLongitude()+","+mLocation.getLatitude()).subscribeWith(new DisposableObserver<RestaurantPlace>() {
                     @Override
                     public void onNext(RestaurantPlace restaurantPlace) {
                         System.out.println("----------------------onnext-----------------");
