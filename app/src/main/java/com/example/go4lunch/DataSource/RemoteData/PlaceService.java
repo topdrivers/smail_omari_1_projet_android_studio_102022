@@ -1,8 +1,11 @@
 package com.example.go4lunch.DataSource.RemoteData;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.go4lunch.DataSource.Models.RestaurantPlace;
 
 import io.reactivex.Observable;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -12,10 +15,10 @@ import retrofit2.http.Query;
 public interface PlaceService {
 
     @GET("nearbysearch/json?")
-    Observable <RestaurantPlace> getNearby(@Query("location") String location,
-                                        @Query("radius") int radius,
-                                        @Query("type") String type,
-                                        @Query("key") String key);
+    Call<RestaurantPlace> getNearby(@Query("location") String location,
+                                    @Query("radius") int radius,
+                                    @Query("type") String type,
+                                    @Query("key") String key);
 /*
     @GET("nearbysearch/json")
     List<Result> getList(@Query("results") String results);

@@ -1,14 +1,12 @@
 package com.example.go4lunch.ViewModel;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.go4lunch.Repository.RetrofitRepository;
 
-import java.util.concurrent.Executor;
 import com.example.go4lunch.DataSource.Models.RestaurantPlace;
-
-import io.reactivex.observers.DisposableObserver;
 
 public class RetrofitViewModel extends ViewModel {
     // REPOSITORIES
@@ -17,7 +15,7 @@ public class RetrofitViewModel extends ViewModel {
 
     // DATA
     @Nullable
-    private  DisposableObserver<RestaurantPlace> results;
+    private LiveData<RestaurantPlace> results;
 
     public RetrofitViewModel(RetrofitRepository retrofitDataSource) {
         this.retrofitDataSource = retrofitDataSource;
@@ -34,7 +32,7 @@ public class RetrofitViewModel extends ViewModel {
     // FOR Results
     // -------------
 
-    public DisposableObserver<RestaurantPlace> getResults() { return retrofitDataSource.getResults();  }
+    public LiveData<RestaurantPlace> getResults() { return retrofitDataSource.getResults();  }
 
 
 }

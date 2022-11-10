@@ -1,36 +1,63 @@
 package com.example.go4lunch.DataSource.RemoteData;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+
 import com.example.go4lunch.DataSource.Models.RestaurantPlace;
+import com.example.go4lunch.DataSource.Models.Result;
 
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
-public class RetrofitStreams {
+public class RetrofitStreams implements LifecycleOwner {
     public static  PlaceService placeService;
-/*
-    public GithubStreams(PlaceService placeService) {
+    public MutableLiveData<RestaurantPlace> restaurantPlaceMutableLiveData= new MutableLiveData<>();
+
+    public RetrofitStreams(PlaceService placeService) {
         this.placeService = placeService;
     }
 
- */
 
-    public static Observable<RestaurantPlace> getPlaceResultsLiveData(String location) {
+
+    public     LiveData<RestaurantPlace> getPlaceResultsLiveData(String location) {
        // PlaceService gitHubService = PlaceService.retrofit.create(PlaceService.class);
         placeService = PlaceService.retrofit.create(PlaceService.class);
         System.out.println("---------------------getplaceresults---------------");
-        Observable<RestaurantPlace> placeResultsCall = placeService
-                .getNearby(location, 6500, "restaurant", /*BuildConfig.MAPS_API_KEY*/"AIzaSyDBrw5T0cNzqnSGQW6vA_QADtMBa1t-sR8")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
 
-        System.out.println("---------------------getplaceresultstostring---------------"+placeResultsCall.toString());
-        return placeResultsCall;
+
+        Call<RestaurantPlace> restaurantPlaceCall = placeService.getNearby("48.550720,7.763412", 6500, "restaurant", /*BuildConfig.MAPS_API_KEY*/"AIzaSyDBrw5T0cNzqnSGQW6vA_QADtMBa1t-sR8");
+
+        restaurantPlaceCall.enqueue(new Callback<RestaurantPlace>() {
+            @Override
+            public void onResponse(Call<RestaurantPlace> call, Response<RestaurantPlace> response) {
+                restaurantPlaceMutableLiveData.setValue(response.body()); ;
+            }
+
+            @Override
+            public void onFailure(Call<RestaurantPlace> call, Throwable t) {
+
+            }
+        });
+
+        return  restaurantPlaceMutableLiveData;
+
     }
 
+    private static void populateList(List<Result> results) {
+    }
+
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() {
+        return null;
+    }
 }
 

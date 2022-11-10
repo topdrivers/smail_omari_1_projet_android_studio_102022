@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //handleClickNavDrawer();
         setupNavDrawer();
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
+        //FacebookSdk.sdkInitialize(getApplicationContext());
+        //AppEventsLogger.activateApp(getApplication());
     }
 
 

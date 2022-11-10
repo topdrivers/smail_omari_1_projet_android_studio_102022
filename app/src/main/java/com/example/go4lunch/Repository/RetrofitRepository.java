@@ -1,13 +1,25 @@
 package com.example.go4lunch.Repository;
 
 
+import static com.example.go4lunch.DataSource.RemoteData.RetrofitStreams.placeService;
+
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+
 import com.example.go4lunch.DataSource.Models.RestaurantPlace;
-import com.example.go4lunch.DataSource.RemoteData.RetrofitStreams;
 import com.example.go4lunch.DataSource.RemoteData.PlaceService;
+import com.example.go4lunch.DataSource.RemoteData.RetrofitStreams;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 
 import io.reactivex.observers.DisposableObserver;
+import retrofit2.Call;
+import retrofit2.CallAdapter;
 import retrofit2.Retrofit;
 
 public class RetrofitRepository {
@@ -20,29 +32,37 @@ public class RetrofitRepository {
     }
 
     // --- GET ---
-    public DisposableObserver<RestaurantPlace> getResults(){
+    public LiveData<RestaurantPlace> getResults(){
 
         System.out.println("-------------1fois------------------");
         // 1.2 - Execute the stream subscribing to Observable defined inside GithubStream
-        return RetrofitStreams.getPlaceResultsLiveData("48.550720,7.763412").subscribeWith(new DisposableObserver<RestaurantPlace>() {
-            @Override
-            public void onNext(RestaurantPlace restaurantPlace) {
-                Log.e("TAG","On Next");
-                // 1.3 - Update UI with list of users
-                System.out.println("--------------esult"+restaurantPlace.getResults().get(1).getName());
-            }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.e("TAG","On Error"+Log.getStackTraceString(e));
-            }
+        RetrofitStreams retrofitStreams = new RetrofitStreams(PlaceService.retrofit.create(PlaceService.class));
+        /*
+        LiveData<RestaurantPlace> restaurantPlaceLiveData = retrofitStreams.getPlaceResultsLiveData("48.550720,7.763412");
+        restaurantPlaceLiveData = placeService
+                .getNearby("48.550720,7.763412", 6500, "restaurant", "AIzaSyDBrw5T0cNzqnSGQW6vA_QADtMBa1t-sR8")
 
-            @Override
-            public void onComplete() {
-                Log.e("TAG","On Complete !!");
-            }
-        });
+        ;
+
+         */
+
+        return retrofitStreams.getPlaceResultsLiveData("48.550720,7.763412");
+
+
+
+        //return RetrofitStreams.getPlaceResultsLiveData("48.550720,7.763412").getValue();
         //return disposable;
+
+/*
+        return new LiveData<RestaurantPlace>() {
+            @Override
+            public void observe(@NonNull LifecycleOwner owner, @NonNull Observer<? super RestaurantPlace> observer) {
+                super.observe(owner, observer);
+            }
+        };
+
+ */
 
     }
 

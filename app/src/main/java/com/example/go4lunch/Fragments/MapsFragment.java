@@ -79,6 +79,11 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
         retrofitViewModel = new ViewModelProvider(this, mViewModelFactory).get(RetrofitViewModel.class);
         retrofitViewModel.init();
         retrofitViewModel.getResults();
+        retrofitViewModel.getResults().observe(requireActivity(),this::getName);
+    }
+
+    private void getName(RestaurantPlace restaurantPlace) {
+        System.out.println("-----------------gtename-----------"+restaurantPlace.getResults().get(3).getName());
     }
 
 
@@ -144,7 +149,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
                 // HTTP (RxJAVA)
                 // -------------------
 
-
+/*
                 this.disposable = RetrofitStreams.getPlaceResultsLiveData(mLocation.getLongitude()+","+mLocation.getLatitude()).subscribeWith(new DisposableObserver<RestaurantPlace>() {
                     @Override
                     public void onNext(RestaurantPlace restaurantPlace) {
@@ -164,6 +169,8 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
                         System.out.println("----------------------oncomplete-----------------");
                     }
                 });
+
+ */
 
 
             }
