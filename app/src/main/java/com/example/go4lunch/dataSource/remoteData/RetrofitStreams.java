@@ -1,14 +1,13 @@
-package com.example.go4lunch.DataSource.RemoteData;
+package com.example.go4lunch.dataSource.remoteData;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
-import com.example.go4lunch.DataSource.Models.RestaurantPlace;
-import com.example.go4lunch.DataSource.Models.Result;
+import com.example.go4lunch.dataSource.models.RestaurantPlace;
+import com.example.go4lunch.dataSource.models.Result;
 
 import java.util.List;
 

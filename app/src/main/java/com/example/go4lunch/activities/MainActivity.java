@@ -1,4 +1,4 @@
-package com.example.go4lunch.Activities;
+package com.example.go4lunch.activities;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -16,59 +16,60 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Fragment;
+import android.content.ClipData;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
-import com.example.go4lunch.DataSource.Models.RestaurantPlace;
-import com.example.go4lunch.Fragments.MapsFragment;
-import com.example.go4lunch.R;
-import com.example.go4lunch.DataSource.RemoteData.RetrofitStreams;
-import com.example.go4lunch.ViewModel.RetrofitViewModel;
-import com.example.go4lunch.ViewModel.ViewModel;
+import com.example.go4lunch.dataSource.models.RestaurantPlace;
 import com.example.go4lunch.databinding.ActivityMainBinding;
-import com.example.go4lunch.injection.Injection;
-import com.example.go4lunch.injection.ViewModelFactory;
+import com.example.go4lunch.fragments.ListViewFragment;
+import com.example.go4lunch.fragments.MapsFragment;
+import com.example.go4lunch.R;
+import com.example.go4lunch.viewModel.ViewModel;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.observers.DisposableObserver;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, EasyPermissions.PermissionCallbacks {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, EasyPermissions.PermissionCallbacks, BottomNavigationView.OnNavigationItemSelectedListener {
     private static final int RC_SIGN_IN = 123;
     //FOR DESIGN
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private BottomNavigationView bottomNavigationView;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private static final int DELAY_SHORT = 1000;
     private ActivityMainBinding binding;
     private static final int REQUEST_PERMISSIONS_LOCATION = 567;
     private ViewModel viewModel;
-
+    private MapsFragment mapsFragment = new MapsFragment();
+    private ListViewFragment listViewFragment= new ListViewFragment();
     //FOR DATA
     private DisposableObserver<RestaurantPlace> disposable;
     final MutableLiveData<Boolean> hasPermissions = new MutableLiveData<>();
@@ -81,16 +82,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        //viewModel = new ViewModelProvider(this).get(ViewModel.class);
-        configureMapsFragment();
+        //configureMapsFragment();
         configureToolBar();
         configureDrawerLayout();
         configureNavigationView();
+        configureBottomNavigationView();
 
         //handleClickNavDrawer();
         setupNavDrawer();
         //FacebookSdk.sdkInitialize(getApplicationContext());
         //AppEventsLogger.activateApp(getApplication());
+
     }
 
 
@@ -129,34 +131,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return super.onOptionsItemSelected(item);
     }
-/*
-    @SuppressLint("NonConstantResourceId")
-    private void handleClickNavDrawer() {
-        System.out.println("--------------------nav-------------------");
-        binding.activityMainNaviationView.setNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.activity_main_your_lunch:
-
-                    break;
-                case R.id.activity_main_settings:
-
-                    break;
-                case R.id.activity_main_logout:
-                    System.out.println("------------------------------");
-                    AuthUI.getInstance().signOut(getApplicationContext());
-                    break;
-            }
-            return true;
-        });
-    }
-
- */
-
-
 
 
 
     private void configureMapsFragment() {
+         mapsFragment = (MapsFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
+        if(mapsFragment==null){
+            mapsFragment = new MapsFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.activity_main_frame_layout,mapsFragment)
+                    .commit();
+        }
+    }
+
+    private void configureListViewFragment() {
+        ListViewFragment listViewFragment = (ListViewFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
+        if(listViewFragment==null){
+            listViewFragment = new ListViewFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.activity_main_frame_layout,listViewFragment)
+                    .commit();
+        }
+    }
+    private void configureWorkmatesFragment() {
         MapsFragment mapsFragment = (MapsFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
         if(mapsFragment==null){
             mapsFragment = new MapsFragment();
@@ -192,14 +189,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (id){
             case R.id.activity_main_your_lunch:
+                System.out.println("----------lunch button---------------");
                 break;
             case R.id.activity_main_settings:
                 break;
+
             case R.id.activity_main_logout:
                 System.out.println("------------------------------");
                 AuthUI.getInstance().signOut(getApplicationContext());
-
                 break;
+
+            case R.id.bottom_map_button:
+                System.out.println("----------map button---------------");
+                //configureMapsFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.activity_main_frame_layout,mapsFragment)
+                        .commit();
+                break;
+            case R.id.bottom_list_view_button:
+                System.out.println("----------list button---------------");
+                //configureListViewFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.activity_main_frame_layout,listViewFragment)
+                        .commit();
+                break;
+            case R.id.bottom_workmates_button:break;
             default:
                 break;
         }
@@ -239,6 +253,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureNavigationView(){
         this.navigationView = (NavigationView) findViewById(R.id.activity_main_naviation_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    // 3 - Configure NavigationView
+    private void configureBottomNavigationView(){
+        this.bottomNavigationView = (BottomNavigationView) findViewById(R.id.activity_main_bottom_navigation_view);
+        bottomNavigationView.setOnItemSelectedListener(this::onNavigationItemSelected);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_map_button);
     }
 
     /**
@@ -437,4 +458,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
+
+
 }

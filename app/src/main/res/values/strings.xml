@@ -33,7 +33,13 @@
     <string name="facebook_app_id">653886016235966</string>
     <string name="fb_login_protocol_scheme">fb653886016235966</string>
     <string name="facebook_client_token">c0221d005962bf4a690e49a858856234</string>
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="content_description_delete_button">item image view content description</string>
+    <string name="item_text_name">A l\'Auberge</string>
+    <string name="item_text_restaurant_type">French</string>
+    <string name="item_text_address">5 rue de bâle, Strasbourg</string>
+    <string name="item_text_opening_hour">Open soon</string>
 
 
 </resources>

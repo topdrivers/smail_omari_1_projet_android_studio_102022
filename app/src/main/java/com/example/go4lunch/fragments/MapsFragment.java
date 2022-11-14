@@ -1,4 +1,4 @@
-package com.example.go4lunch.Fragments;
+package com.example.go4lunch.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,11 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.go4lunch.DataSource.Models.RestaurantPlace;
-import com.example.go4lunch.DataSource.Models.Result;
+import com.example.go4lunch.dataSource.models.RestaurantPlace;
+import com.example.go4lunch.dataSource.models.Result;
 import com.example.go4lunch.R;
-import com.example.go4lunch.DataSource.RemoteData.RetrofitStreams;
-import com.example.go4lunch.ViewModel.RetrofitViewModel;
+import com.example.go4lunch.viewModel.RetrofitViewModel;
 import com.example.go4lunch.injection.Injection;
 import com.example.go4lunch.injection.ViewModelFactory;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -38,7 +37,6 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
 
 public class MapsFragment extends Fragment  implements OnMapReadyCallback {
     private Location mLocation;

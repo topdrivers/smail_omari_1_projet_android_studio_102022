@@ -1,4 +1,4 @@
-package com.example.go4lunch.Activities;
+package com.example.go4lunch.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

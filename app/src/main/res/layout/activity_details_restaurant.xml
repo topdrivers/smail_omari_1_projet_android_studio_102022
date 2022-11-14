@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/details_restaurant_activity"
-    tools:context=".Activities.DetailsRestaurantActivity">
+    tools:context=".activities.DetailsRestaurantActivity">
 
 
 

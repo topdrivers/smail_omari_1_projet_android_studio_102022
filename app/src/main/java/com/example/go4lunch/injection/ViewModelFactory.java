@@ -3,12 +3,9 @@ package com.example.go4lunch.injection;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.viewmodel.CreationExtras;
 
-import com.example.go4lunch.Repository.RetrofitRepository;
-import com.example.go4lunch.ViewModel.RetrofitViewModel;
-
-import java.util.concurrent.Executor;
+import com.example.go4lunch.repository.RetrofitRepository;
+import com.example.go4lunch.viewModel.RetrofitViewModel;
 
 /**
  * Created by Philippe on 27/02/2018.

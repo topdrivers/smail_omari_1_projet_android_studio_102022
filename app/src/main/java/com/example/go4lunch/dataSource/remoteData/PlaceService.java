@@ -1,10 +1,7 @@
-package com.example.go4lunch.DataSource.RemoteData;
+package com.example.go4lunch.dataSource.remoteData;
 
-import androidx.lifecycle.LiveData;
+import com.example.go4lunch.dataSource.models.RestaurantPlace;
 
-import com.example.go4lunch.DataSource.Models.RestaurantPlace;
-
-import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;

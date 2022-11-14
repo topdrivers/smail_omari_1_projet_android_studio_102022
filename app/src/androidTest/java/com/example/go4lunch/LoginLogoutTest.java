@@ -1,5 +1,9 @@
 package com.example.go4lunch;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -8,7 +12,7 @@ import android.widget.TextView;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.example.go4lunch.Activities.MainActivity;
+import com.example.go4lunch.activities.MainActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,8 +22,8 @@ import java.util.Objects;
 
 @RunWith(AndroidJUnit4.class)
 public class LoginLogoutTest {
+        /*
 
-    public class MainActivityInstrumentedTest {
         @Rule
         public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(MainActivity.class);
 
@@ -49,5 +53,7 @@ public class LoginLogoutTest {
             // Check that recyclerView is not displayed anymore
             assertThat(listTasks.getVisibility(), equalTo(View.GONE));
         }
+
+         */
 
     }

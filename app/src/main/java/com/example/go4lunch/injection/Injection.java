@@ -3,8 +3,8 @@ package com.example.go4lunch.injection;
 import android.content.Context;
 
 
-import com.example.go4lunch.DataSource.RemoteData.PlaceService;
-import com.example.go4lunch.Repository.RetrofitRepository;
+import com.example.go4lunch.dataSource.remoteData.PlaceService;
+import com.example.go4lunch.repository.RetrofitRepository;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;

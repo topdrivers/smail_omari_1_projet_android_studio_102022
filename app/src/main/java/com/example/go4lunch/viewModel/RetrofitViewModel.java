@@ -1,12 +1,12 @@
-package com.example.go4lunch.ViewModel;
+package com.example.go4lunch.viewModel;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.go4lunch.Repository.RetrofitRepository;
+import com.example.go4lunch.repository.RetrofitRepository;
 
-import com.example.go4lunch.DataSource.Models.RestaurantPlace;
+import com.example.go4lunch.dataSource.models.RestaurantPlace;
 
 public class RetrofitViewModel extends ViewModel {
     // REPOSITORIES

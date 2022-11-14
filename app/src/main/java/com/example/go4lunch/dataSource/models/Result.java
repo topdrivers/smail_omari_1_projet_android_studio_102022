@@ -1,13 +1,14 @@
 
-package com.example.go4lunch.DataSource.Models;
+package com.example.go4lunch.dataSource.models;
 
+import java.io.Serializable;
 import java.util.List;
 //import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 //@Generated("jsonschema2pojo")
-public class Result  {
+public class Result implements Serializable {
 
     @SerializedName("business_status")
     @Expose

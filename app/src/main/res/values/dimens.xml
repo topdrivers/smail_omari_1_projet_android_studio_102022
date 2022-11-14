@@ -6,4 +6,20 @@
     <dimen name="marign_end_image_profile">5dp</dimen>
     <dimen name="margin_text_view_name">5dp</dimen>
     <dimen name="text_margin">10dp</dimen>
+    <dimen name="margin_end_image">5dp</dimen>
+    <dimen name="zero">0dp</dimen>
+    <dimen name="margin_start_name_text_view">5dp</dimen>
+    <dimen name="margin_end_name_text_view">5dp</dimen>
+    <dimen name="text_size_name_text_view">16sp</dimen>
+    <dimen name="eight_dp">8dp</dimen>
+    <dimen name="width_restaurant_type">40dp</dimen>
+    <dimen name="height_restaurant_type">10dp</dimen>
+    <dimen name="normal">12sp</dimen>
+    <dimen name="width_first_dash">15dp</dimen>
+    <dimen name="height_first_dash">20dp</dimen>
+    <dimen name="width_address">95dp</dimen>
+    <dimen name="height_address">15dp</dimen>
+    <dimen name="margin_start_first_dash">2dp</dimen>
+    <dimen name="margin_start_item_address">2dp</dimen>
+    <dimen name="margin_top_restaurant_type">10dp</dimen>
 </resources>

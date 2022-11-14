@@ -13,9 +13,9 @@ import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 
 
-import com.example.go4lunch.DataSource.Models.RestaurantPlace;
+import com.example.go4lunch.dataSource.models.RestaurantPlace;
 import com.example.go4lunch.Utils.LiveDataTestUtil;
-import com.example.go4lunch.ViewModel.RetrofitViewModel;
+import com.example.go4lunch.viewModel.RetrofitViewModel;
 import com.example.go4lunch.injection.Injection;
 import com.example.go4lunch.injection.ViewModelFactory;
 

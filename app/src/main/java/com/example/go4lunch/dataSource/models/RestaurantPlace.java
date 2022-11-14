@@ -1,5 +1,5 @@
 
-package com.example.go4lunch.DataSource.Models;
+package com.example.go4lunch.dataSource.models;
 
 import java.util.List;
 //import javax.annotation.Generated;
