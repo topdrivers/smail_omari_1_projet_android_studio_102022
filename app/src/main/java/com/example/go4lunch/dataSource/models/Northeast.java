@@ -5,8 +5,10 @@ package com.example.go4lunch.dataSource.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 //@Generated("jsonschema2pojo")
-public class Northeast  {
+public class Northeast implements Serializable {
 
     @SerializedName("lat")
     @Expose

@@ -5,8 +5,10 @@ package com.example.go4lunch.dataSource.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 //@Generated("jsonschema2pojo")
-public class PlusCode  {
+public class PlusCode implements Serializable {
 
     @SerializedName("compound_code")
     @Expose

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.go4lunch.repository.RetrofitRepository;
+import com.example.go4lunch.repository.UserRepository;
 import com.example.go4lunch.viewModel.RetrofitViewModel;
 
 /**
@@ -16,10 +17,13 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private final RetrofitRepository retrofitDataSource;
 
+
     public ViewModelFactory(RetrofitRepository retrofitDataSource) {
         this.retrofitDataSource = retrofitDataSource;
 
     }
+
+
 
 
     @NonNull

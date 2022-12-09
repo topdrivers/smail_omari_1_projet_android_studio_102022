@@ -1,12 +1,12 @@
 package com.example.go4lunch.fragments;
 
+import static com.example.go4lunch.activities.MainActivity.userViewModel;
+
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -14,30 +14,26 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.go4lunch.R;
-import com.example.go4lunch.Utils.ItemClickSupport;
-import com.example.go4lunch.activities.DetailsRestaurantActivity;
 import com.example.go4lunch.dataSource.models.RestaurantPlace;
 import com.example.go4lunch.dataSource.models.Result;
 import com.example.go4lunch.injection.Injection;
 import com.example.go4lunch.injection.ViewModelFactory;
+import com.example.go4lunch.model.User;
 import com.example.go4lunch.viewModel.RetrofitViewModel;
 import com.example.go4lunch.views.MyListViewRestaurantAdapter;
+import com.example.go4lunch.views.WorkmatesAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ListViewFragment#newInstance} factory method to
+ * Use the {@link WorkmatesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListViewFragment extends Fragment {
+public class WorkmatesFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,17 +44,14 @@ public class ListViewFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private MyListViewRestaurantAdapter myListViewRestaurantAdapter;
-
-    private RetrofitViewModel retrofitViewModel;
-    public static List<Result> results;
-
-    //@BindView(R.id.recyclerview_list_view) RecyclerView recyclerView;
-    //@BindView(R.id.fragment_list_view_swipe_container) SwipeRefreshLayout swipeRefreshLayout;
+    WorkmatesAdapter workmatesAdapter;
     RecyclerView recyclerView;
-    SwipeRefreshLayout swipeRefreshLayout;
+    List<User> userList;
+    private RetrofitViewModel retrofitViewModel;
+    private List<Result> resultList;
 
-    public ListViewFragment() {
+
+    public WorkmatesFragment() {
         // Required empty public constructor
     }
 
@@ -68,11 +61,11 @@ public class ListViewFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ListViewFragment.
+     * @return A new instance of fragment WorkmatesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListViewFragment newInstance(String param1, String param2) {
-        ListViewFragment fragment = new ListViewFragment();
+    public static WorkmatesFragment newInstance(String param1, String param2) {
+        WorkmatesFragment fragment = new WorkmatesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -87,12 +80,14 @@ public class ListViewFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
-        if(myListViewRestaurantAdapter!=null){
-            initList();
-
+        configureViewModel();
+        initRestaurantList();
+        if(workmatesAdapter!=null) {
+            initUserList();
         }
+        System.out.println("----------1--------------");
+
+
 
 
     }
@@ -102,11 +97,32 @@ public class ListViewFragment extends Fragment {
         super.onResume();
         configureViewModel();
 
-        initList();
-        configureOnClickRecyclerView();
+        initRestaurantList();
+        initUserList();
+        System.out.println("----------2--------------");
+
+
+
     }
 
-    private void initList()   {
+    private void initUserList()   {
+        //userViewModel.getUserList().observe(this,this::userList);
+        userViewModel.getAllUsersFromDataBase();
+        userViewModel.getAllUsers().observe(this, this::userList);
+        System.out.println("----------------list user--------------"+userViewModel.getUserList());
+
+    }
+
+    private void configureViewModel(){
+        this.resultList = new ArrayList<>();
+        ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(requireActivity());
+        retrofitViewModel = new ViewModelProvider(this, mViewModelFactory).get(RetrofitViewModel.class);
+        retrofitViewModel.init();
+        retrofitViewModel.getResults();
+        //retrofitViewModel.getResults().observe(requireActivity(),this::getName);
+    }
+
+    private void initRestaurantList()   {
         retrofitViewModel.getResults().observe(this,this::getListRestaurant);
 
     }
@@ -120,71 +136,55 @@ public class ListViewFragment extends Fragment {
         myListViewRestaurantAdapter.notifyDataSetChanged();
 
          */
-        results.clear();
-        results.addAll(restaurantPlace.getResults());
-        myListViewRestaurantAdapter.notifyDataSetChanged();
-        swipeRefreshLayout.setRefreshing(false);
+        System.out.println("--------------getlistrestaurant---------------"+restaurantPlace.getResults().get(0).getPlaceId());
+        resultList.clear();
+        resultList.addAll(restaurantPlace.getResults());
+        System.out.println("-------------getlistresto resultlist---------"+resultList.get(3).getPlaceId());
+        //configureRecyclerView(getView());
+        workmatesAdapter.notifyDataSetChanged();
+
     }
 
-    private void configureViewModel(){
-        ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(requireActivity());
-        retrofitViewModel = new ViewModelProvider(this, mViewModelFactory).get(RetrofitViewModel.class);
-        retrofitViewModel.init();
-        retrofitViewModel.getResults();
-        //retrofitViewModel.getResults().observe(requireActivity(),this::getName);
+
+    private void userList(List<User> users) {
+
+
+        userList.clear();
+        userList.addAll(users);
+        workmatesAdapter = new WorkmatesAdapter(userList, resultList, requireContext());
+        recyclerView.setAdapter(workmatesAdapter);
+        workmatesAdapter.notifyDataSetChanged();
+
+        System.out.println("--------------passage appel workmates adapter");
+
     }
 
-    //Action click item recycler view
 
-    private void configureOnClickRecyclerView(){
-        ItemClickSupport.addTo(recyclerView, R.layout.fragment_list_view)
-                .setOnItemClickListener((recyclerView, position, v) -> {
-                    Result restaurant = myListViewRestaurantAdapter.getRestaurant(position);
-
-                    Intent myIntent = new Intent(getActivity(), DetailsRestaurantActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("restaurantSelected", restaurant);
-                    myIntent.putExtras(bundle);
-
-
-
-                    ListViewFragment.this.startActivity(myIntent);
-                    Toast.makeText(getContext(), "You clicked on user : " + restaurant.getName(), Toast.LENGTH_SHORT).show();
-
-
-                });
-    }
-
-    private void configureSwipeRefreshLayout(){
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initList();
-            }
-        });
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        System.out.println("----------3--------------");
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_list_view, container, false);
+        View view =  inflater.inflate(R.layout.fragment_workmates, container, false);
 
         configureRecyclerView(view);
-
-        configureSwipeRefreshLayout();
 
         return view;
     }
 
-    private void configureRecyclerView(View view) {
-        this.results = new ArrayList<>();
-        Context context = view.getContext();
-        recyclerView = view.findViewById(R.id.recyclerview_list_view);
-        swipeRefreshLayout = view.findViewById(R.id.fragment_list_view_swipe_container);
 
-        myListViewRestaurantAdapter = new MyListViewRestaurantAdapter(results);
-        recyclerView.setAdapter(myListViewRestaurantAdapter);
+
+
+    private void configureRecyclerView(View view) {
+        this.userList = new ArrayList<>();
+//        this.resultList = new ArrayList<>();
+        Context context = getContext();
+        recyclerView = (RecyclerView) view.findViewById(R.id.item_recycler_view);
+
+
+        workmatesAdapter = new WorkmatesAdapter(userList, resultList, requireContext());
+        recyclerView.setAdapter(workmatesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 /*
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
@@ -198,4 +198,5 @@ public class ListViewFragment extends Fragment {
  */
 
     }
+
 }

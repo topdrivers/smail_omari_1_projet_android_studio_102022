@@ -10,14 +10,14 @@
         />
     <item
         android:id="@+id/bottom_list_view_button"
-        android:icon="@drawable/baseline_people_18"
+        android:icon="@drawable/baseline_view_list_20"
         android:title="List View"
         android:enabled="true"
         />
 
     <item
         android:id="@+id/bottom_workmates_button"
-        android:icon="@drawable/baseline_view_list_20"
+        android:icon="@drawable/baseline_people_18"
         android:title="Workmates"
         android:enabled="true"
         />

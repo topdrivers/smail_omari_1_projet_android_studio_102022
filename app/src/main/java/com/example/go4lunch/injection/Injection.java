@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.example.go4lunch.dataSource.remoteData.PlaceService;
 import com.example.go4lunch.repository.RetrofitRepository;
+import com.example.go4lunch.repository.UserRepository;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -32,6 +33,14 @@ public class Injection {
         return new ViewModelFactory(dataSourceItem);
     }
 
+    public static UserViewModelFactory provideUserViewModelFactory(Context context) {
+        UserRepository userDataSourceItem = provideUserDataSource(context);
+        return new UserViewModelFactory(userDataSourceItem);
+    }
+
+    private static UserRepository provideUserDataSource(Context context) {
+        return new UserRepository();
+    }
 
 
 }

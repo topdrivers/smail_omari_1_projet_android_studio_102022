@@ -23,10 +23,14 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginStart="15dp"
+    android:layout_marginEnd="20dp"
     android:layout_marginTop="5dp"
+    android:maxLines="1"
+    android:singleLine="true"
     android:textStyle="bold"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/item_restaurant_distance"
     />
 
 
@@ -67,6 +71,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/height_first_dash"
         android:layout_marginStart="@dimen/margin_start_item_address"
+        android:layout_marginEnd="20dp"
         android:layout_marginTop="@dimen/margin_top_restaurant_type"
         android:ellipsize="end"
         android:textSize="@dimen/normal"
@@ -76,7 +81,7 @@
         app:maxLines="1"
         app:layout_constraintStart_toEndOf="@+id/item_first_dash"
         app:layout_constraintTop_toBottomOf="@+id/item_name"
-        app:layout_constraintEnd_toStartOf="@+id/item_imageView"
+        app:layout_constraintEnd_toStartOf="@+id/item_restaurant_distance"
 
         />
 
@@ -97,6 +102,54 @@
 
 
         />
+
+    <TextView
+        android:id="@+id/item_restaurant_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/item_name"
+        app:layout_constraintEnd_toStartOf="@+id/item_imageView"
+        app:layout_constraintTop_toTopOf="@+id/item_name"
+        tools:text="300m" />
+
+    <ImageView
+        android:id="@+id/item_workmates_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/workmates_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/item_address"
+        app:layout_constraintEnd_toStartOf="@+id/item_imageView"
+        app:layout_constraintStart_toStartOf="@+id/item_restaurant_distance"
+        app:layout_constraintTop_toTopOf="@+id/item_address"
+        app:srcCompat="@drawable/ic_baseline_person_outline_24" />
+
+    <TextView
+        android:id="@+id/item_number_guests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/item_workmates_icon"
+        app:layout_constraintEnd_toStartOf="@+id/item_imageView"
+        app:layout_constraintStart_toStartOf="@+id/item_workmates_icon"
+        app:layout_constraintTop_toTopOf="@+id/item_workmates_icon"
+        tools:text="(2)" />
+
+    <RatingBar
+        android:id="@+id/item_rating_bar"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/RatingBar"
+        app:layout_constraintBottom_toBottomOf="@+id/item_restaurant_opening_hour"
+        app:layout_constraintEnd_toStartOf="@+id/item_imageView"
+        app:layout_constraintStart_toStartOf="@+id/item_workmates_icon"
+        app:layout_constraintTop_toTopOf="@+id/item_restaurant_opening_hour"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 

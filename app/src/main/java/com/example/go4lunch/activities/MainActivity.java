@@ -16,10 +16,10 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Fragment;
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,14 +27,20 @@ import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.go4lunch.dataSource.models.RestaurantPlace;
 import com.example.go4lunch.databinding.ActivityMainBinding;
 import com.example.go4lunch.fragments.ListViewFragment;
 import com.example.go4lunch.fragments.MapsFragment;
 import com.example.go4lunch.R;
-import com.example.go4lunch.viewModel.ViewModel;
+import com.example.go4lunch.fragments.WorkmatesFragment;
+import com.example.go4lunch.injection.Injection;
+import com.example.go4lunch.injection.UserViewModelFactory;
+import com.example.go4lunch.model.User;
+import com.example.go4lunch.viewModel.UserViewModel;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -48,10 +54,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.observers.DisposableObserver;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -67,14 +70,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int DELAY_SHORT = 1000;
     private ActivityMainBinding binding;
     private static final int REQUEST_PERMISSIONS_LOCATION = 567;
-    private ViewModel viewModel;
+
     private MapsFragment mapsFragment = new MapsFragment();
     private ListViewFragment listViewFragment= new ListViewFragment();
+    private WorkmatesFragment workmatesFragment = new WorkmatesFragment();
     //FOR DATA
     private DisposableObserver<RestaurantPlace> disposable;
     final MutableLiveData<Boolean> hasPermissions = new MutableLiveData<>();
-
     private ActionBarDrawerToggle toggle;
+    private User currentUser;
+    public static UserViewModel userViewModel;
 
 
     @Override
@@ -87,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         configureDrawerLayout();
         configureNavigationView();
         configureBottomNavigationView();
+        configureUserViewModel();
 
         //handleClickNavDrawer();
         setupNavDrawer();
@@ -95,6 +101,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void configureUserViewModel() {
+        UserViewModelFactory userViewModelFactory = Injection.provideUserViewModelFactory(this);
+        userViewModel = new ViewModelProvider(this,userViewModelFactory).get(UserViewModel.class);
+    }
 
 
 
@@ -135,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void configureMapsFragment() {
-         mapsFragment = (MapsFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
+        mapsFragment = (MapsFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
         if(mapsFragment==null){
             mapsFragment = new MapsFragment();
             getSupportFragmentManager().beginTransaction()
@@ -213,7 +223,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(R.id.activity_main_frame_layout,listViewFragment)
                         .commit();
                 break;
-            case R.id.bottom_workmates_button:break;
+            case R.id.bottom_workmates_button:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.activity_main_frame_layout,workmatesFragment)
+                        .commit();
+                break;
             default:
                 break;
         }
@@ -245,7 +259,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if ( FirebaseAuth.getInstance().getCurrentUser()==null) {
             createSignInIntent();
         } else {
-            //observeUsers();
+            observeUsers();
+            System.out.println("---------------------check user--------------");
         }
     }
 
@@ -375,6 +390,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
+
+    private void observeUsers() {
+        userViewModel.getDataBaseInstanceUser();
+        userViewModel.getCurrentUserDataFromFireStore(userViewModel.getCurrentUser().getUid());
+        userViewModel.observeCurrentUser().observe(this, this::setupNavigationHeader);
+    }
+
+    private void setupNavigationHeader(User user) {
+        currentUser = user;
+        System.out.println("-------------current user--------"+currentUser);
+
+        NavigationView navigationView = findViewById(R.id.activity_main_naviation_view);
+        View headerView = navigationView.getHeaderView(0);
+        //ImageView background = headerView.findViewById(R.id.iVBackgroundHeaderMenu);
+        ImageView userAvatar = headerView.findViewById(R.id.activity_main_header_profile_image);
+        TextView userName = headerView.findViewById(R.id.activity_main_nav_header_name_text_view);
+        TextView userEmail = headerView.findViewById(R.id.activity_main_nav_header_email_text_view);
+
+
+        if (currentUser.getUrlPicture() != null) {
+            Glide.with(this)
+                    .load(currentUser.getUrlPicture())
+                    .circleCrop()
+                    .into(userAvatar);
+        } else {
+            Glide.with(this)
+                    .load(R.drawable.image_profil)
+                    .circleCrop()
+                    .into(userAvatar);
+        }
+
+        userName.setText(user.getUsername());
+        userEmail.setText(user.getUserEmail());
+
+        //saveInSharePreferences();
+    }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         System.out.println("------------permission result----------------");
@@ -383,11 +437,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private LiveData<Boolean> permission(){
-         hasPermissions.setValue(EasyPermissions.hasPermissions(
+        hasPermissions.setValue(EasyPermissions.hasPermissions(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 ACCESS_FINE_LOCATION));
-         return hasPermissions;
+        return hasPermissions;
     }
 
     private void setupAppAccordingToPermissions() {
@@ -426,8 +480,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //viewModel.startTrackingLocation(this, this);
         //viewModel.getCurrentLocation().observe(this, this::updateLocationAndFetchRestaurantList);
 
-       //mLocation.setLongitude(48.550720);
-       //mLocation.setLatitude(7.763412);
+        //mLocation.setLongitude(48.550720);
+        //mLocation.setLatitude(7.763412);
 
     }
 

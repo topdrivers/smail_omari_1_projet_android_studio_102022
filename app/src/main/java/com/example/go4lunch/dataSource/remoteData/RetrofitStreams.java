@@ -32,7 +32,7 @@ public class RetrofitStreams implements LifecycleOwner {
         System.out.println("---------------------getplaceresults---------------");
 
 
-        Call<RestaurantPlace> restaurantPlaceCall = placeService.getNearby("48.550720,7.763412", 6500, "restaurant", /*BuildConfig.MAPS_API_KEY*/"AIzaSyDBrw5T0cNzqnSGQW6vA_QADtMBa1t-sR8");
+        Call<RestaurantPlace> restaurantPlaceCall = placeService.getNearby("48.550720,7.763412", 1500, "restaurant", /*BuildConfig.MAPS_API_KEY*/"AIzaSyDBrw5T0cNzqnSGQW6vA_QADtMBa1t-sR8");
 
         restaurantPlaceCall.enqueue(new Callback<RestaurantPlace>() {
             @Override

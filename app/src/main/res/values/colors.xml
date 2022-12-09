@@ -13,5 +13,7 @@
     <color name="firebrick">#b50504</color>
     <color name="orange_red">#fc3f1b</color>
     <color name="google_red">#e94235</color>
+    <color name="gold">#deb20b</color>
+    <color name="whiteSmoke">#eaeff0</color>
 
 </resources>

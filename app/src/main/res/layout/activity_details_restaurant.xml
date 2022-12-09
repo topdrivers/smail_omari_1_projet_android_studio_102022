@@ -27,7 +27,7 @@
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/details_fragment_floating_button"
+            android:id="@+id/details_activity_floating_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:contentDescription="@string/details_restaurant_activity_floating_button"
@@ -138,73 +138,73 @@
         app:layout_constraintGuide_percent="0.50" />
 
     <ImageButton
-        android:id="@+id/ibCallDetail"
+        android:id="@+id/detail_activity_call_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:backgroundTint="#00FFFFFF"
         android:contentDescription="@string/button_to_call_the_restaurant"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toStartOf="@+id/ibLikeDetail"
+        app:layout_constraintEnd_toStartOf="@+id/detail_activity_like_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline7"
         app:srcCompat="@drawable/ic_baseline_phone_24" />
 
     <ImageButton
-        android:id="@+id/ibLikeDetail"
+        android:id="@+id/detail_activity_like_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:backgroundTint="#00FFFFFF"
         android:contentDescription="@string/button_to_add_the_restaurant_to_the_favourite"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toStartOf="@+id/ibWebSiteDetails"
-        app:layout_constraintStart_toEndOf="@+id/ibCallDetail"
+        app:layout_constraintEnd_toStartOf="@+id/detail_activity_website_button"
+        app:layout_constraintStart_toEndOf="@+id/detail_activity_call_button"
         app:layout_constraintTop_toTopOf="@+id/guideline7"
-        app:srcCompat="@drawable/ic_baseline_star_rate_24" />
+        app:srcCompat="@drawable/ic_star_border_white_24dp" />
 
     <ImageButton
-        android:id="@+id/ibWebSiteDetails"
+        android:id="@+id/detail_activity_website_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:backgroundTint="#00FFFFFF"
         android:contentDescription="@string/button_to_visit_the_website_of_the_restaurant"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ibLikeDetail"
+        app:layout_constraintStart_toEndOf="@+id/detail_activity_like_button"
         app:layout_constraintTop_toTopOf="@+id/guideline7"
         app:srcCompat="@drawable/ic_baseline_web_24" />
 
     <TextView
-        android:id="@+id/tvCallDetails"
+        android:id="@+id/detail_activity_call_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="@string/call"
         android:textColor="@color/google_red"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toEndOf="@+id/ibCallDetail"
-        app:layout_constraintStart_toStartOf="@+id/ibCallDetail" />
+        app:layout_constraintEnd_toEndOf="@+id/detail_activity_call_button"
+        app:layout_constraintStart_toStartOf="@+id/detail_activity_call_button" />
 
     <TextView
-        android:id="@+id/tvLLikeDetails"
+        android:id="@+id/detail_activity_like_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="@string/like"
         android:textColor="@color/google_red"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toEndOf="@+id/ibLikeDetail"
-        app:layout_constraintStart_toEndOf="@+id/ibCallDetail" />
+        app:layout_constraintEnd_toEndOf="@+id/detail_activity_like_button"
+        app:layout_constraintStart_toEndOf="@+id/detail_activity_call_button" />
 
     <TextView
-        android:id="@+id/tvWebsiteDetails"
+        android:id="@+id/detail_activity_website_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="@string/website"
         android:textColor="@color/google_red"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toEndOf="@+id/ibWebSiteDetails"
-        app:layout_constraintStart_toEndOf="@+id/ibLikeDetail" />
+        app:layout_constraintEnd_toEndOf="@+id/detail_activity_website_button"
+        app:layout_constraintStart_toEndOf="@+id/detail_activity_like_button" />
 
 <androidx.recyclerview.widget.RecyclerView
     android:layout_width="match_parent"

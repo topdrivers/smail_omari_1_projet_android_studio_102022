@@ -1,13 +1,14 @@
 
 package com.example.go4lunch.dataSource.models;
 
+import java.io.Serializable;
 import java.util.List;
 //import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 //@Generated("jsonschema2pojo")
-public class Photo {
+public class Photo implements Serializable {
 
     @SerializedName("height")
     @Expose
