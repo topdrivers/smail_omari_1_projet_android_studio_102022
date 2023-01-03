@@ -4,6 +4,7 @@ package com.example.go4lunch.repository;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import androidx.lifecycle.Observer;
 
 import com.example.go4lunch.dataSource.models.RestaurantPlace;
 import com.example.go4lunch.model.User;
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,7 +56,7 @@ public class UserRepository {
     public MutableLiveData <List<User>> userList= new MutableLiveData<>(new ArrayList<>());
 
 
-    public UserRepository getInstance() {
+    public static UserRepository getInstance() {
         UserRepository result = instance;
         if (result != null) {
             return result;
@@ -72,6 +74,10 @@ public class UserRepository {
 
          return FirebaseAuth.getInstance().getCurrentUser();
 
+    }
+
+    public Task<Void> signOut(Context context){
+        return AuthUI.getInstance().signOut(context);
     }
 
     @Nullable

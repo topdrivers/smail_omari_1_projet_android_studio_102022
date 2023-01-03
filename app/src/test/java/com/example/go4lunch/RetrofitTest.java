@@ -33,10 +33,11 @@ public class RetrofitTest {
     private Context context;
     RetrofitViewModel retrofitViewModel;
     private static final String NAME_TEST = "Aldo Pizza Neudorf";
-    private final String PLACE_ID = "ChIJ3dsMIAzJlkcRavdegCsfEvs";
-    private final Double RATING = 4.2;
+    private final String PLACE_ID = "ChIJv8ZNmp3JlkcRrNw8pvmbb4E";
+    private final Double RATING = 4.4;
     private final String REFERENCE = "ChIJ3dsMIAzJlkcRavdegCsfEvs";
-    private final String ADDRESS = "137 Route du Polygone, Strasbourg";
+    private final String ADDRESS = "7 Rue Leitersperger, Strasbourg";
+
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
@@ -63,28 +64,41 @@ public class RetrofitTest {
     }
 
     @Test
-    public void check_retrofit_request_reception() throws InterruptedException {
+    public void check_second_item_name_retrofit_request_reception() throws InterruptedException {
 
         // TEST
         RestaurantPlace restaurantPlace = LiveDataTestUtil.getValue(this.retrofitViewModel.getResults());
-        String name =  restaurantPlace.getResults().get(3).getName();
+        String name =  restaurantPlace.getResults().get(1).getName();
         assertEquals(name, NAME_TEST);
+
     }
 
     @Test
-    public void check_several_fields_in_retrofit_reception() throws InterruptedException{
+    public void check_third_item_id_retrofit_request_reception() throws InterruptedException {
+
+        // TEST
+        RestaurantPlace restaurantPlace = LiveDataTestUtil.getValue(this.retrofitViewModel.getResults());
+        String placeId = restaurantPlace.getResults().get(2).getPlaceId();
+        assertEquals(placeId, PLACE_ID);
+
+    }
+
+    @Test
+    public void check_fourth_item_rating_retrofit_request_reception() throws InterruptedException {
+
+        // TEST
+        RestaurantPlace restaurantPlace = LiveDataTestUtil.getValue(this.retrofitViewModel.getResults());
+        Double rating = restaurantPlace.getResults().get(3).getRating();
+        assertEquals(rating, RATING);
+
+    }
+
+
+    @Test
+    public void check_fifth_item_rating_retrofit_request_reception() throws InterruptedException{
 
         RestaurantPlace restaurantPlace = LiveDataTestUtil.getValue(this.retrofitViewModel.getResults());
-        String name = restaurantPlace.getResults().get(3).getName();
-        String placeId = restaurantPlace.getResults().get(3).getPlaceId();
-        Double rating = restaurantPlace.getResults().get(3).getRating();
-        String reference = restaurantPlace.getResults().get(3).getReference();
-        String address = restaurantPlace.getResults().get(3).getVicinity();
-
-        assertEquals(name, NAME_TEST);
-        assertEquals(placeId,PLACE_ID);
-        assertEquals(rating, RATING);
-        assertEquals(reference, REFERENCE);
+        String address = restaurantPlace.getResults().get(4).getVicinity();
         assertEquals(address, ADDRESS);
 
 

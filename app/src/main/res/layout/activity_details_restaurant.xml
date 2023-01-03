@@ -11,7 +11,7 @@
 
 
         <ImageView
-            android:id="@+id/details_fragment_image"
+            android:id="@+id/details_activity_image"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:src="@drawable/reunion"
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:contentDescription="@string/details_restaurant_activity_floating_button"
-            app:layout_constraintTop_toBottomOf="@+id/details_fragment_image"
+            app:layout_constraintTop_toBottomOf="@+id/details_activity_image"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toTopOf="@id/details_fragment_cardview_info"
             android:layout_marginRight="15dp"
@@ -50,7 +50,7 @@
             app:cardCornerRadius="0dp"
             android:orientation="vertical"
             app:cardBackgroundColor="@color/google_red"
-            app:layout_constraintTop_toBottomOf="@+id/details_fragment_image"
+            app:layout_constraintTop_toBottomOf="@+id/details_activity_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/guideline7"
 
@@ -108,6 +108,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/details_restaurant_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/restaurant_address"

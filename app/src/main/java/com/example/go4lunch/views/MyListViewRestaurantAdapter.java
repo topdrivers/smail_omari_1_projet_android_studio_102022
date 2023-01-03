@@ -134,7 +134,7 @@ public class MyListViewRestaurantAdapter extends RecyclerView.Adapter<MyListView
 
         //@BindView(R.id.item_name) public TextView restaurantName;
         TextView restaurantName;
-        ImageView restaurantAvatar;
+        public ImageView restaurantAvatar;
         TextView restaurantAddress;
         TextView restaurantType;
         TextView restaurantOpeningTime;

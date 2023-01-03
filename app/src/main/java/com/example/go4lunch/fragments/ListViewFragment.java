@@ -1,5 +1,6 @@
 package com.example.go4lunch.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -51,12 +52,13 @@ public class ListViewFragment extends Fragment {
     private MyListViewRestaurantAdapter myListViewRestaurantAdapter;
 
     private RetrofitViewModel retrofitViewModel;
-    public static List<Result> results;
+    public  List<Result> results;
 
     //@BindView(R.id.recyclerview_list_view) RecyclerView recyclerView;
     //@BindView(R.id.fragment_list_view_swipe_container) SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
+    ViewModelFactory mViewModelFactory;
 
     public ListViewFragment() {
         // Required empty public constructor
@@ -106,12 +108,12 @@ public class ListViewFragment extends Fragment {
         configureOnClickRecyclerView();
     }
 
-    private void initList()   {
+    public void initList()   {
         retrofitViewModel.getResults().observe(this,this::getListRestaurant);
 
     }
 
-    private void getListRestaurant(RestaurantPlace restaurantPlace) {
+    public void getListRestaurant(RestaurantPlace restaurantPlace) {
         /*
         results = restaurantPlace.getResults();
         myListViewRestaurantAdapter = new MyListViewRestaurantAdapter(results);
@@ -126,9 +128,9 @@ public class ListViewFragment extends Fragment {
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    private void configureViewModel(){
-        ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(requireActivity());
-        retrofitViewModel = new ViewModelProvider(this, mViewModelFactory).get(RetrofitViewModel.class);
+    public void configureViewModel(){
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
+        retrofitViewModel = new ViewModelProvider(this, viewModelFactory).get(RetrofitViewModel.class);
         retrofitViewModel.init();
         retrofitViewModel.getResults();
         //retrofitViewModel.getResults().observe(requireActivity(),this::getName);
@@ -136,7 +138,7 @@ public class ListViewFragment extends Fragment {
 
     //Action click item recycler view
 
-    private void configureOnClickRecyclerView(){
+    public void configureOnClickRecyclerView(){
         ItemClickSupport.addTo(recyclerView, R.layout.fragment_list_view)
                 .setOnItemClickListener((recyclerView, position, v) -> {
                     Result restaurant = myListViewRestaurantAdapter.getRestaurant(position);
@@ -177,7 +179,7 @@ public class ListViewFragment extends Fragment {
         return view;
     }
 
-    private void configureRecyclerView(View view) {
+    public void configureRecyclerView(View view) {
         this.results = new ArrayList<>();
         Context context = view.getContext();
         recyclerView = view.findViewById(R.id.recyclerview_list_view);

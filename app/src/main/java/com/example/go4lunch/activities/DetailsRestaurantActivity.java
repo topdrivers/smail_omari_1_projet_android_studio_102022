@@ -2,6 +2,8 @@ package com.example.go4lunch.activities;
 
 
 
+//import static com.example.go4lunch.Utils.DetailsRestaurantFieldsUtils.getRestaurantDetailsFields;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.go4lunch.R;
+import com.example.go4lunch.Utils.DetailsRestaurantFieldsUtils;
 import com.example.go4lunch.dataSource.models.Result;
 import com.example.go4lunch.injection.Injection;
 import com.example.go4lunch.injection.UserViewModelFactory;
@@ -25,7 +28,7 @@ public class DetailsRestaurantActivity extends AppCompatActivity {
 
     private UserViewModel userViewModel;
     User user ;
-    private Result restaurant;
+    public Result restaurant = new Result();
     ImageButton likeButton;
     ImageButton validateRestaurantChoice;
 
@@ -42,6 +45,9 @@ public class DetailsRestaurantActivity extends AppCompatActivity {
 
         setupLikeButton();
         setUpValidateRestaurantChoice();
+        DetailsRestaurantFieldsUtils detailsRestaurantFieldsUtils = new DetailsRestaurantFieldsUtils();
+
+        detailsRestaurantFieldsUtils.getRestaurantDetailsFields(this,restaurant);
     }
 
     private void setUpValidateRestaurantChoice() {
@@ -69,6 +75,7 @@ public class DetailsRestaurantActivity extends AppCompatActivity {
 
         });
     }
+
 
     private void setImageChoice() {
         try {
@@ -171,6 +178,8 @@ public class DetailsRestaurantActivity extends AppCompatActivity {
         }
 
     }
+
+    public Result getRestaurant(){return restaurant;}
 
 
 

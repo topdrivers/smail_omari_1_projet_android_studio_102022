@@ -24,11 +24,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.go4lunch.dataSource.models.RestaurantPlace;
@@ -41,6 +45,7 @@ import com.example.go4lunch.injection.Injection;
 import com.example.go4lunch.injection.UserViewModelFactory;
 import com.example.go4lunch.model.User;
 import com.example.go4lunch.viewModel.UserViewModel;
+import com.facebook.FacebookSdk;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -83,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -96,12 +101,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //handleClickNavDrawer();
         setupNavDrawer();
-        //FacebookSdk.sdkInitialize(getApplicationContext());
+//        FacebookSdk.sdkInitialize(FacebookSdk.getApplicationContext());
         //AppEventsLogger.activateApp(getApplication());
+
+        new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int currentid = v.findFocus().getId();
+
+
+                System.out.println("--------------------id_____________________"+currentid);
+//         RelativeLayout showme = (RelativeLayout)findViewById(R.id.startLayout);
+//         showme.setVisibility(View.VISIBLE);
+            }
+        };
+
 
     }
 
-    private void configureUserViewModel() {
+
+
+                private void configureUserViewModel() {
         UserViewModelFactory userViewModelFactory = Injection.provideUserViewModelFactory(this);
         userViewModel = new ViewModelProvider(this,userViewModelFactory).get(UserViewModel.class);
     }
@@ -206,7 +227,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.activity_main_logout:
                 System.out.println("------------------------------");
-                AuthUI.getInstance().signOut(getApplicationContext());
+                userViewModel.signOut(this);
+                /*
+                AuthUI.getInstance().signOut(this)
+                        .addOnSuccessListener( aVoid ->{
+                           finish();
+                        });
+
+                 */
+                handler.postDelayed(this::checkIfUserIsSignedIn, 1000);
                 break;
 
             case R.id.bottom_map_button:
@@ -255,8 +284,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
     }
 
-    private void checkIfUserIsSignedIn() {
-        if ( FirebaseAuth.getInstance().getCurrentUser()==null) {
+    public void checkIfUserIsSignedIn() {
+        if ( !userViewModel.isCurrentUserLogged()) {
             createSignInIntent();
         } else {
             observeUsers();
@@ -395,7 +424,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void observeUsers() {
         userViewModel.getDataBaseInstanceUser();
         userViewModel.getCurrentUserDataFromFireStore(userViewModel.getCurrentUser().getUid());
-        userViewModel.observeCurrentUser().observe(this, this::setupNavigationHeader);
+       userViewModel.observeCurrentUser().observe(this, this::setupNavigationHeader);
     }
 
     private void setupNavigationHeader(User user) {
@@ -409,21 +438,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView userName = headerView.findViewById(R.id.activity_main_nav_header_name_text_view);
         TextView userEmail = headerView.findViewById(R.id.activity_main_nav_header_email_text_view);
 
+        if ( FirebaseAuth.getInstance().getCurrentUser()!=null) {
+            if (currentUser.getUrlPicture() != null) {
+                Glide.with(this)
+                        .load(currentUser.getUrlPicture())
+                        .circleCrop()
+                        .into(userAvatar);
+            } else {
+                Glide.with(this)
+                        .load(R.drawable.image_profil)
+                        .circleCrop()
+                        .into(userAvatar);
+            }
 
-        if (currentUser.getUrlPicture() != null) {
-            Glide.with(this)
-                    .load(currentUser.getUrlPicture())
-                    .circleCrop()
-                    .into(userAvatar);
-        } else {
-            Glide.with(this)
-                    .load(R.drawable.image_profil)
-                    .circleCrop()
-                    .into(userAvatar);
+            userName.setText(user.getUsername());
+            userEmail.setText(user.getUserEmail());
         }
-
-        userName.setText(user.getUsername());
-        userEmail.setText(user.getUserEmail());
 
         //saveInSharePreferences();
     }

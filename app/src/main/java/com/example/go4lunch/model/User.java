@@ -66,4 +66,11 @@ public class User {
         return restaurantChoice;
     }
 
+    public void setFavouriteRestaurants(@Nullable List<String> favouriteRestaurants) {
+        this.favouriteRestaurants = favouriteRestaurants;
+    }
+
+    public void setRestaurantChoice(@Nullable String restaurantChoice) {
+        this.restaurantChoice = restaurantChoice;
+    }
 }
