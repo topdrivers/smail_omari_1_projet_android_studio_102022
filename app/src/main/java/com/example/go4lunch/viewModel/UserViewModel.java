@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.go4lunch.domain.Callback;
 import com.example.go4lunch.model.User;
 import com.example.go4lunch.repository.UserRepository;
 import com.google.android.gms.tasks.Task;
@@ -75,6 +76,10 @@ public class UserViewModel extends ViewModel {
         return userRepository.getUserList();
     }
 
+    public LiveData<List<User>> getUserDetailsRestaurantList(String restaurantId) {
+        return userRepository.getUserDetailsRestaurantList(restaurantId);
+    }
+
     public void addRestaurantToFavourite(String restaurantID) {
         userRepository.addFavouriteRestaurant(userRepository.getCurrentUserID(), restaurantID);
     }
@@ -97,5 +102,10 @@ public class UserViewModel extends ViewModel {
 
     public LiveData<List<User>> getAllUsers(){
         return userRepository.getAllUsers();
+    }
+
+    public void getUsersByChosenRestaurant(
+            String restaurantId, String usersWorkplaceId, Callback<List<User>> callback) {
+                userRepository.getUsersByChosenRestaurant(restaurantId,usersWorkplaceId,callback);
     }
 }

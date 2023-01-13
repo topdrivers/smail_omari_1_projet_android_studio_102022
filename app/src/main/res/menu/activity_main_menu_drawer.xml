@@ -6,17 +6,17 @@
     <item
         android:id="@+id/activity_main_your_lunch"
         android:icon="@drawable/baseline_restaurant_menu_24"
-        android:title="Fil d'actualité" />
+        android:title="Votre repas" />
 
     <item
         android:id="@+id/activity_main_settings"
         android:icon="@drawable/baseline_settings_24"
-        android:title="Fil d'actualité" />
+        android:title="Paramètres" />
 
     <item
         android:id="@+id/activity_main_logout"
         android:icon="@drawable/baseline_power_settings_new_24"
-        android:title="Fil d'actualité" />
+        android:title="Déconnexion" />
 
 
 

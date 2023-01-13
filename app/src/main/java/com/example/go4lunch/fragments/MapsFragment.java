@@ -1,5 +1,7 @@
 package com.example.go4lunch.fragments;
 
+import static com.example.go4lunch.activities.MainActivity.userViewModel;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +22,7 @@ import android.view.ViewGroup;
 import com.example.go4lunch.dataSource.models.RestaurantPlace;
 import com.example.go4lunch.dataSource.models.Result;
 import com.example.go4lunch.R;
+import com.example.go4lunch.model.User;
 import com.example.go4lunch.viewModel.RetrofitViewModel;
 import com.example.go4lunch.injection.Injection;
 import com.example.go4lunch.injection.ViewModelFactory;
@@ -27,7 +33,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -35,6 +43,8 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
@@ -50,6 +60,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
 
     //FOR DATA
     private Disposable disposable;
+    private List<User> userList;
 
     public static MapFragment newInstance() {
         return (new MapFragment());
@@ -59,6 +70,17 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_maps, container, false);
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (userViewModel!=null){
+            initUserList();
+        }
+
+    }
+
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -77,11 +99,35 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
         retrofitViewModel = new ViewModelProvider(this, mViewModelFactory).get(RetrofitViewModel.class);
         retrofitViewModel.init();
         retrofitViewModel.getResults();
-        retrofitViewModel.getResults().observe(requireActivity(),this::getName);
+        retrofitViewModel.getResults().observe(requireActivity(),this::getResultList);
     }
 
-    private void getName(RestaurantPlace restaurantPlace) {
+    private void getResultList(RestaurantPlace restaurantPlace) {
         System.out.println("-----------------gtename-----------"+restaurantPlace.getResults().get(3).getName());
+        mMap.clear();
+        for(Result result : restaurantPlace.getResults()){
+            System.out.println("-----------------nombre result-----------");
+            for(User user : userList){
+                System.out.println("-----------------nombre user-----------");
+                if (result.getPlaceId().equalsIgnoreCase(user.getRestaurantChoice())){
+                    System.out.println("-----------------equals-----------");
+                 //   result.setIconBackgroundColor("#FF018786");
+
+                    Double lat = result.getGeometry().getLocation().getLat();
+                    Double lng = result.getGeometry().getLocation().getLng();
+                    String title = result.getName();
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(new LatLng(lat, lng));
+                    markerOptions.title(title);
+
+
+                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_place_booked_24));
+
+                    Marker marker = mMap.addMarker(markerOptions);
+                    marker.setTag(result);
+                }
+            }
+        }
     }
 
 
@@ -213,6 +259,19 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
             swipeRefreshLayout.setRefreshing(false);
 
             */
+    }
+
+    private void initUserList()   {
+        //userViewModel.getUserList().observe(this,this::userList);
+        userViewModel.getDataBaseInstanceUser();
+        userViewModel.getAllUsersFromDataBase();
+        userViewModel.getAllUsers().observe(this, this::userList);
+        System.out.println("----------------list user--------------"+userViewModel.getUserList());
+
+    }
+
+    private void userList(List<User> users) {
+        this.userList = users;
     }
 }
 /*

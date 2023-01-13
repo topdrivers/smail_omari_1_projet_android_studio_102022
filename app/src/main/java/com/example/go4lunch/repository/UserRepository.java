@@ -4,6 +4,12 @@ package com.example.go4lunch.repository;
 
 import static android.content.ContentValues.TAG;
 
+import static com.example.go4lunch.domain.UserProvider.CHOSEN_RESTAURANT_ID;
+import static com.example.go4lunch.domain.UserProvider.CHOSEN_RESTAURANT_NAME;
+import static com.example.go4lunch.domain.UserProvider.CONVERSATIONS;
+import static com.example.go4lunch.domain.UserProvider.LIKED_RESTAURANTS;
+import static com.example.go4lunch.domain.UserProvider.WORKPLACE;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -15,6 +21,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.go4lunch.dataSource.models.RestaurantPlace;
+import com.example.go4lunch.domain.Callback;
+import com.example.go4lunch.domain.UserProvider;
 import com.example.go4lunch.model.User;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,6 +39,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UserRepository {
 
@@ -41,6 +50,8 @@ public class UserRepository {
     private static final String FIELD_FAVOURITE_RESTAURANT = "favouriteRestaurants";
     private static final String FIELD_RESTAURANT_CHOICE = "restaurantChoice";
     private final MutableLiveData<List<User>> allUsers = new MutableLiveData<>();
+    private final MutableLiveData<List<User>> allDetailsRestaurantUsers = new MutableLiveData<>();
+
 /*
     LiveData<List<User>> userList =  new LiveData<List<User>>(new ArrayList<>()) {
         @Override
@@ -245,6 +256,19 @@ public class UserRepository {
 
     }
 
+    public LiveData<List<User>> getUserDetailsRestaurantList(String restaurantId) {
+        LiveData<List<User>> userList =  allUsers;
+
+        for(User user : userList.getValue()){
+            if(user.getRestaurantChoice() == restaurantId){
+                userList.getValue().add(user);
+            }
+        }
+        return userList;
+
+    }
+
+
     //Get ll users from FireStore
     public void getAllUsersFromDataBase() {
         database.collection(COLLECTION_NAME)
@@ -267,6 +291,32 @@ public class UserRepository {
     //Get updated list of users
     public LiveData<List<User>> getAllUsers() {
         return allUsers;
+    }
+
+    public void getUsersByChosenRestaurant(
+            String restaurantId, String usersWorkplaceId, Callback<List<User>> callback) {
+        database
+                .collection("users")
+                .whereEqualTo(WORKPLACE, usersWorkplaceId)
+                .whereEqualTo(CHOSEN_RESTAURANT_ID, restaurantId)
+                .get()
+                .addOnSuccessListener(
+                        snapshots -> callback.onSuccess(usersDocumentsToArray(snapshots.getDocuments())))
+                .addOnFailureListener(__ -> callback.onFailure());
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<User> usersDocumentsToArray(List<DocumentSnapshot> usersDocuments) {
+        final List<User> userList = new ArrayList<>();
+        for (DocumentSnapshot userDoc : usersDocuments) {
+            userList.add(
+                    new User(
+                            userDoc.getId(),
+                            userDoc.getString("username"),
+                            userDoc.getString("urlPicture")));
+        }
+        //return userList.toArray(new User[0]);
+        return userList;
     }
 
 

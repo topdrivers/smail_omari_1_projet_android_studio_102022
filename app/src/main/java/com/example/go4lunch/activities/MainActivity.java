@@ -3,6 +3,8 @@ package com.example.go4lunch.activities;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 
+import static com.example.go4lunch.fragments.ListViewFragment.retrofitViewModel;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -12,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.LiveData;
@@ -19,18 +22,23 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private User currentUser;
     public static UserViewModel userViewModel;
+    SearchView searchView;
+
 
 
     @Override
@@ -98,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         configureNavigationView();
         configureBottomNavigationView();
         configureUserViewModel();
+
 
         //handleClickNavDrawer();
         setupNavDrawer();
@@ -121,8 +132,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-                private void configureUserViewModel() {
+    private void configureUserViewModel() {
         UserViewModelFactory userViewModelFactory = Injection.provideUserViewModelFactory(this);
         userViewModel = new ViewModelProvider(this,userViewModelFactory).get(UserViewModel.class);
     }
@@ -137,12 +147,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupAppAccordingToPermissions();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.activity_main_menu_drawer, menu);
-        return true;
-    }
+
+
+
 
     /**
      * Navigation drawer setup
@@ -162,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
 
 
@@ -274,12 +284,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureToolBar(){
         this.toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
+        //toolbar.setNavigationIcon(R.drawable.baseline_search_white_20);
+        toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.baseline_search_white_24));
     }
 
     // 2 - Configure Drawer Layout
     private void configureDrawerLayout(){
         this.drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }

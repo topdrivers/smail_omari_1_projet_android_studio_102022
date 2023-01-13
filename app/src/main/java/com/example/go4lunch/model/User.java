@@ -37,6 +37,12 @@ public class User {
         this.restaurantChoice = restaurantChoice;
     }
 
+    public User(String userId, String userName, @Nullable String userPicture) {
+        this.uid = userId;
+        this.username = userName;
+        this.urlPicture = userPicture;
+    }
+
     // GETTERS
 
     public String getUid() {

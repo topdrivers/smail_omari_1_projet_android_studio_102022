@@ -1,7 +1,11 @@
 package com.example.go4lunch.dataSource.remoteData;
 
+
+import com.example.go4lunch.Utils.AutocompleteApi.AutocompleteResult;
+import com.example.go4lunch.dataSource.models.PlaceDetails.PlaceDetailsInfo;
 import com.example.go4lunch.dataSource.models.RestaurantPlace;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -16,6 +20,15 @@ public interface PlaceService {
                                     @Query("radius") int radius,
                                     @Query("type") String type,
                                     @Query("key") String key);
+
+    //Autocomplete API Request
+    @GET("autocomplete/json?strictbounds&key=AIzaSyDBrw5T0cNzqnSGQW6vA_QADtMBa1t-sR8")
+    Observable<AutocompleteResult> getAutocomplete(@Query("input") String input, @Query("radius") int radius, @Query("location") String location, @Query("type") String type);
+
+    //PlaceDetails API Request
+    @GET("details/json?key=AIzaSyDBrw5T0cNzqnSGQW6vA_QADtMBa1t-sR8")
+    Observable<PlaceDetailsInfo> getDetails(@Query("place_id") String placeId);
+
 /*
     @GET("nearbysearch/json")
     List<Result> getList(@Query("results") String results);
