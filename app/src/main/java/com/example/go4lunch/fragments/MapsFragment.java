@@ -9,8 +9,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -19,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.go4lunch.activities.DetailsRestaurantActivity;
 import com.example.go4lunch.dataSource.models.RestaurantPlace;
 import com.example.go4lunch.dataSource.models.Result;
 import com.example.go4lunch.R;
@@ -61,6 +60,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
     //FOR DATA
     private Disposable disposable;
     private List<User> userList;
+    private List<Result> resultClickMarker;
 
     public static MapFragment newInstance() {
         return (new MapFragment());
@@ -78,6 +78,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
             initUserList();
         }
 
+
     }
 
 
@@ -90,6 +91,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         configureViewModel();
+
         //FloatingActionButton floatingActionButton = view.findViewById(R.id.fab_location);
         //floatingActionButton.setOnClickListener(v -> getCurrentLocation());
     }
@@ -104,30 +106,77 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
 
     private void getResultList(RestaurantPlace restaurantPlace) {
         System.out.println("-----------------gtename-----------"+restaurantPlace.getResults().get(3).getName());
+        resultClickMarker = restaurantPlace.getResults();
         mMap.clear();
         for(Result result : restaurantPlace.getResults()){
             System.out.println("-----------------nombre result-----------");
             for(User user : userList){
                 System.out.println("-----------------nombre user-----------");
+                //   result.setIconBackgroundColor("#FF018786");
+
+                Double lat = result.getGeometry().getLocation().getLat();
+                Double lng = result.getGeometry().getLocation().getLng();
+                String title = result.getName();
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(new LatLng(lat, lng));
+                markerOptions.title(title);
                 if (result.getPlaceId().equalsIgnoreCase(user.getRestaurantChoice())){
                     System.out.println("-----------------equals-----------");
-                 //   result.setIconBackgroundColor("#FF018786");
-
-                    Double lat = result.getGeometry().getLocation().getLat();
-                    Double lng = result.getGeometry().getLocation().getLng();
-                    String title = result.getName();
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(new LatLng(lat, lng));
-                    markerOptions.title(title);
 
 
-                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_place_booked_24));
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_place_booked_24));
 
-                    Marker marker = mMap.addMarker(markerOptions);
-                    marker.setTag(result);
+
+                }else {
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_place_unbook_24));
                 }
+
+                Marker marker = mMap.addMarker(markerOptions);
+                //marker.setTag(result);
+                marker.setTag(result.getPlaceId());
             }
+            configureClickIconMap();
         }
+
+    }
+
+    private void configureClickIconMap(){
+        mMap.setOnMarkerClickListener(MapsFragment.this::onClickMarker);
+    }
+
+
+    private boolean onClickMarker(Marker marker) {
+        System.out.println("-----------------onclickmarker-----------");
+        System.out.println("-------------size-------------"+resultClickMarker.size());
+
+        for(Result result1 : resultClickMarker ) {
+            System.out.println("-----------icon------------"+result1.getPlaceId());
+            System.out.println("-----------tag------------"+marker.getId().toString());
+
+            if (marker.getTag().equals(result1.getPlaceId())) {
+                Intent intent = new Intent(getActivity(), DetailsRestaurantActivity.class);
+                intent.putExtra("restaurantSelected",result1);
+                startActivity(intent);
+
+            } else {
+                //return false;
+            }
+
+        }
+        return true;
+        /*
+        if (marker.getTag() != null){
+
+            Intent intent = new Intent(getActivity(),DetailsRestaurantActivity.class);
+            intent.putExtra("restaurantSelected", marker.getTag().toString());
+            startActivity(intent);
+            return true;
+        }else{
+
+            return false;
+        }
+
+         */
     }
 
 
