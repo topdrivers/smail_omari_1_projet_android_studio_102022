@@ -110,7 +110,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
         mMap.clear();
         for(Result result : restaurantPlace.getResults()){
             System.out.println("-----------------nombre result-----------");
-            for(User user : userList){
+
                 System.out.println("-----------------nombre user-----------");
                 //   result.setIconBackgroundColor("#FF018786");
 
@@ -120,20 +120,30 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(new LatLng(lat, lng));
                 markerOptions.title(title);
+                System.out.println("----------------result id------------"+result.getPlaceId());
+                for(User user : userList){
+                System.out.println("----------------result user getrestaurantchoice------------"+user.getRestaurantChoice());
+
                 if (result.getPlaceId().equalsIgnoreCase(user.getRestaurantChoice())){
+                //if (user.getRestaurantChoice()!=null){
                     System.out.println("-----------------equals-----------");
 
 
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_place_booked_24));
+                    Marker marker = mMap.addMarker(markerOptions);
+                    //marker.setTag(result);
+                    marker.setTag(result.getPlaceId());
+                    break;
 
 
                 }else {
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_place_unbook_24));
+                    Marker marker = mMap.addMarker(markerOptions);
+                    //marker.setTag(result);
+                    marker.setTag(result.getPlaceId());
                 }
 
-                Marker marker = mMap.addMarker(markerOptions);
-                //marker.setTag(result);
-                marker.setTag(result.getPlaceId());
+
             }
             configureClickIconMap();
         }
