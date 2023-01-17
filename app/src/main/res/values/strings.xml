@@ -30,7 +30,7 @@
 
 
     <!--Facebook-->
-    <string name="facebook_app_id">653886016235966</string>
+    <string name="facebook_application_id">653886016235966</string>
     <string name="fb_login_protocol_scheme">fb653886016235966</string>
     <string name="facebook_client_token">c0221d005962bf4a690e49a858856234</string>
     <!-- TODO: Remove or change this placeholder text -->

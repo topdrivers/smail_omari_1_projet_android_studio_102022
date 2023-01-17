@@ -33,8 +33,15 @@ import com.example.go4lunch.injection.ViewModelFactory;
 import com.example.go4lunch.viewModel.RetrofitViewModel;
 import com.example.go4lunch.views.AutoCompleteListViewAdapter;
 import com.example.go4lunch.views.MyListViewRestaurantAdapter;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
@@ -70,6 +77,8 @@ public class ListViewFragment extends Fragment {
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
     ViewModelFactory mViewModelFactory;
+
+
 
     public ListViewFragment() {
         // Required empty public constructor
@@ -108,7 +117,10 @@ public class ListViewFragment extends Fragment {
         }
 
 
+
     }
+
+
 
 
 
@@ -368,6 +380,8 @@ public class ListViewFragment extends Fragment {
         configureRecyclerView(view);
 
         configureSwipeRefreshLayout();
+
+
 
         return view;
     }

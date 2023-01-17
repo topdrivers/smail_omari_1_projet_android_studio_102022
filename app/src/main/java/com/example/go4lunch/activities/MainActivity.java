@@ -54,6 +54,7 @@ import com.example.go4lunch.injection.UserViewModelFactory;
 import com.example.go4lunch.model.User;
 import com.example.go4lunch.viewModel.UserViewModel;
 import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -112,8 +113,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //handleClickNavDrawer();
         setupNavDrawer();
-//        FacebookSdk.sdkInitialize(FacebookSdk.getApplicationContext());
+        //FacebookSdk.sdkInitialize(FacebookSdk.getApplicationContext());
         //AppEventsLogger.activateApp(getApplication());
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(getApplication());
 
         new View.OnClickListener() {
             @Override
@@ -358,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new AuthUI.IdpConfig.GoogleBuilder().build(),
                 // Unstable twitter login, follow matter here: https://github.com/firebase/firebase-js-sdk/issues/4256
                 //new AuthUI.IdpConfig.TwitterBuilder().build(),
-                //new AuthUI.IdpConfig.FacebookBuilder().build(),
+                new AuthUI.IdpConfig.FacebookBuilder().build(),
                 new AuthUI.IdpConfig.EmailBuilder().build());
 
         Intent signInIntent = AuthUI.getInstance()
@@ -367,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .setAvailableProviders(providers)
                 .setIsSmartLockEnabled(false, true)
                 .setLockOrientation(true)
-                .build();
+                .build(), RC_SIGN_IN;
         signInLauncher.launch(signInIntent);
     }
 
