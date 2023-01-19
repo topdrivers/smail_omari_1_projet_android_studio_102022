@@ -5,20 +5,20 @@
     <item
         android:id="@+id/bottom_map_button"
         android:icon="@drawable/baseline_map_24"
-        android:title="Map View"
+        android:title="@string/map_view_bottom_text"
         android:enabled="true"
         />
     <item
         android:id="@+id/bottom_list_view_button"
         android:icon="@drawable/baseline_view_list_20"
-        android:title="List View"
+        android:title="@string/list_view_bottom_text"
         android:enabled="true"
         />
 
     <item
         android:id="@+id/bottom_workmates_button"
         android:icon="@drawable/baseline_people_18"
-        android:title="Workmates"
+        android:title="@string/workmates_bottom_text"
         android:enabled="true"
         />
 

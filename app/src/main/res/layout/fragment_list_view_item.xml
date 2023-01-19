@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:contentDescription="@string/content_description_delete_button"
+        android:contentDescription="@string/content_description_delete_button"
         />
 
 <TextView
@@ -48,7 +48,8 @@
         android:textSize="@dimen/normal"
         tools:text="@string/item_text_restaurant_type"
         app:layout_constraintStart_toStartOf="@+id/item_name"
-        app:layout_constraintTop_toBottomOf="@+id/item_name" />
+        app:layout_constraintTop_toBottomOf="@+id/item_name"
+        />
 
     <TextView
         android:id="@+id/item_first_dash"
@@ -59,11 +60,10 @@
         android:ellipsize="end"
         android:textSize="@dimen/normal"
         android:textStyle="bold"
-        android:text="-"
+        android:text="@string/tiret"
         app:maxLines="1"
         app:layout_constraintStart_toEndOf="@+id/item_restaurant_type"
         app:layout_constraintTop_toBottomOf="@+id/item_name"
-
         />
 
     <TextView
@@ -82,7 +82,6 @@
         app:layout_constraintStart_toEndOf="@+id/item_first_dash"
         app:layout_constraintTop_toBottomOf="@+id/item_name"
         app:layout_constraintEnd_toStartOf="@+id/item_restaurant_distance"
-
         />
 
     <TextView
@@ -99,8 +98,6 @@
         app:maxLines="1"
         app:layout_constraintStart_toStartOf="@+id/item_name"
         app:layout_constraintTop_toBottomOf="@+id/item_address"
-
-
         />
 
     <TextView
@@ -113,7 +110,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/item_name"
         app:layout_constraintEnd_toStartOf="@+id/item_imageView"
         app:layout_constraintTop_toTopOf="@+id/item_name"
-        tools:text="300m" />
+        tools:text="300m"
+        />
 
     <ImageView
         android:id="@+id/item_workmates_icon"
@@ -125,7 +123,8 @@
         app:layout_constraintEnd_toStartOf="@+id/item_imageView"
         app:layout_constraintStart_toStartOf="@+id/item_restaurant_distance"
         app:layout_constraintTop_toTopOf="@+id/item_address"
-        app:srcCompat="@drawable/ic_baseline_person_outline_24" />
+        app:srcCompat="@drawable/ic_baseline_person_outline_24"
+        />
 
     <TextView
         android:id="@+id/item_number_guests"
@@ -137,7 +136,8 @@
         app:layout_constraintEnd_toStartOf="@+id/item_imageView"
         app:layout_constraintStart_toStartOf="@+id/item_workmates_icon"
         app:layout_constraintTop_toTopOf="@+id/item_workmates_icon"
-        tools:text="(2)" />
+        tools:text="(2)"
+        />
 
     <RatingBar
         android:id="@+id/item_rating_bar"
@@ -149,7 +149,8 @@
         app:layout_constraintEnd_toStartOf="@+id/item_imageView"
         app:layout_constraintStart_toStartOf="@+id/item_workmates_icon"
         app:layout_constraintTop_toTopOf="@+id/item_restaurant_opening_hour"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        />
 
 
 

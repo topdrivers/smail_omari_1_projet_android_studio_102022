@@ -42,13 +42,24 @@
     <string name="item_text_opening_hour">Open soon</string>
     <string name="workmates_icon">content description workmates icon</string>
     <string name="workmates_avatar">content description workmates avatar</string>
-    <string name="workmate_has_selected_a_restaurant">%s is joining</string>
+    <string name="workmate_is_joining_this_restaurant">%s is joining %s</string>
+    <string name="workmate_is_joining">%s is joining</string>
     <string name="workmate_has_not_selected_a_restaurant">%s hasn\'t decided yet</string>
     <string name="search_title">Rechercher</string>
     <string name="search_query_hint">Rechercher un restaurant</string>
     <string name="search_too_short">Your query must be 3 character length minimum</string>
     <string name="toolbar_search_hint">Search</string>
     <string name="no_restaurant_error_message">No restaurants found, try to change your search radius settings</string>
+    <string name="content_description_details_activity_image">content description image details</string>
+    <string name="content_description_details_activity_floating_button">content description details activity floating button</string>
+    <string name="content_description_image_view_menu_drawer">content description image view menu drawer</string>
+    <string name="tiret">-</string>
+    <string name="activity_main_lunch_label">Votre repas</string>
+    <string name="activity_main_settings_label">Paramètres</string>
+    <string name="activity_main_logout_label">Déconnexion</string>
+    <string name="map_view_bottom_text">Map View</string>
+    <string name="list_view_bottom_text">List View</string>
+    <string name="workmates_bottom_text">Workmates</string>
 
 
 </resources>

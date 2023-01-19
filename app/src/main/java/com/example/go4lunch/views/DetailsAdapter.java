@@ -1,5 +1,6 @@
 package com.example.go4lunch.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,21 +33,20 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
     public DetailsAdapter.DetailsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_workmates_item, parent, false);
-
         return new DetailsViewHolder(view);
     }
 
+    @SuppressLint("StringFormatMatches")
     @Override
     public void onBindViewHolder(@NonNull DetailsAdapter.DetailsViewHolder holder, int position) {
 
-        holder.workmateLunchStatus.setText(String.format(context.getString(R.string.workmate_has_selected_a_restaurant), users.get(position).getUsername()));
+        holder.workmateLunchStatus.setText(String.format(context.getString(R.string.workmate_is_joining), users.get(position).getUsername()));
+
         if (users.get(position).getUrlPicture()!=null){
             Picasso.get().load(users.get(position).getUrlPicture())
                     .resize(100,100)
                     .into(holder.workmateAvatar);
-
         }else {
-            System.out.println("----------------picture----------------");
             Picasso.get().load(R.drawable.image_profil)
                     .resize(100,100)
                     .into(holder.workmateAvatar);
@@ -67,11 +67,9 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
 
         public DetailsViewHolder(@NonNull View itemView) {
             super(itemView);
-
             item = itemView.findViewById(R.id.item_workmate);
             workmateAvatar = itemView.findViewById(R.id.item_workmate_avatar);
             workmateLunchStatus = itemView.findViewById(R.id.item_workmate_restaurant_choice);
         }
     }
-
 }

@@ -44,7 +44,6 @@ public class User {
     }
 
     // GETTERS
-
     public String getUid() {
         return uid;
     }

@@ -1,15 +1,10 @@
 package com.example.go4lunch.Utils;
 
 import android.app.Activity;
-import android.content.Context;
-import android.icu.text.DateTimePatternGenerator;
-import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.go4lunch.R;
-import com.example.go4lunch.dataSource.models.RestaurantPlace;
 import com.example.go4lunch.dataSource.models.Result;
 import com.squareup.picasso.Picasso;
 

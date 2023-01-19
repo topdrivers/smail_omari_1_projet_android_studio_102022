@@ -16,7 +16,7 @@ import java.util.List;
 public class UserViewModel extends ViewModel {
 
     private static volatile UserViewModel instance;
-    private  UserRepository userRepository;
+    private final UserRepository userRepository;
 
     private UserViewModel() {
         userRepository = UserRepository.getInstance();
@@ -40,12 +40,6 @@ public class UserViewModel extends ViewModel {
     public UserViewModel(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
-    /*public UserRepository getInstance() {
-        return userRepository.getInstance();
-    }
-
-     */
 
     public FirebaseUser getCurrentUser() {
         return userRepository.getCurrentUser();
@@ -72,7 +66,6 @@ public class UserViewModel extends ViewModel {
     }
 
     public LiveData<List<User>> getUserList(){
-        System.out.println("---------user list viewmodel------"+userRepository.getUserList());
         return userRepository.getUserList();
     }
 

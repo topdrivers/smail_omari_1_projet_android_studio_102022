@@ -36,6 +36,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -51,9 +52,6 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
     private Location mLocation;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleMap mMap;
-    private RetrofitViewModel retrofitViewModel;
-    //private final RetrofitRepository mRetrofitRepository = new RetrofitRepository(APIClient.getGoogleMapAPI());
-    int radius = 1000;
     private static final float DEFAULT_ZOOM = 15;
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
 
@@ -61,6 +59,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
     private Disposable disposable;
     private List<User> userList;
     private List<Result> resultClickMarker;
+    FirebaseAuth firebaseAuth;
 
     public static MapFragment newInstance() {
         return (new MapFragment());
@@ -77,7 +76,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
         if (userViewModel!=null){
             initUserList();
         }
-
+        firebaseAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -91,28 +90,20 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         configureViewModel();
-
-        //FloatingActionButton floatingActionButton = view.findViewById(R.id.fab_location);
-        //floatingActionButton.setOnClickListener(v -> getCurrentLocation());
     }
 
     private void configureViewModel(){
         ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(requireActivity());
-        retrofitViewModel = new ViewModelProvider(this, mViewModelFactory).get(RetrofitViewModel.class);
+        RetrofitViewModel retrofitViewModel = new ViewModelProvider(this, mViewModelFactory).get(RetrofitViewModel.class);
         retrofitViewModel.init();
         retrofitViewModel.getResults();
         retrofitViewModel.getResults().observe(requireActivity(),this::getResultList);
     }
 
     private void getResultList(RestaurantPlace restaurantPlace) {
-        System.out.println("-----------------gtename-----------"+restaurantPlace.getResults().get(3).getName());
         resultClickMarker = restaurantPlace.getResults();
         mMap.clear();
         for(Result result : restaurantPlace.getResults()){
-            System.out.println("-----------------nombre result-----------");
-
-                System.out.println("-----------------nombre user-----------");
-                //   result.setIconBackgroundColor("#FF018786");
 
                 Double lat = result.getGeometry().getLocation().getLat();
                 Double lng = result.getGeometry().getLocation().getLng();
@@ -120,31 +111,18 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(new LatLng(lat, lng));
                 markerOptions.title(title);
-                System.out.println("----------------result id------------"+result.getPlaceId());
                 if(userViewModel.isCurrentUserLogged()) {
                     for (User user : userList) {
-                        System.out.println("----------------result user getrestaurantchoice------------" + user.getRestaurantChoice());
-
                         if (result.getPlaceId().equalsIgnoreCase(user.getRestaurantChoice())) {
-                            //if (user.getRestaurantChoice()!=null){
-                            System.out.println("-----------------equals-----------");
-
-
                             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_place_booked_24));
                             Marker marker = mMap.addMarker(markerOptions);
-                            //marker.setTag(result);
                             marker.setTag(result.getPlaceId());
                             break;
-
-
                         } else {
                             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_place_unbook_24));
                             Marker marker = mMap.addMarker(markerOptions);
-                            //marker.setTag(result);
                             marker.setTag(result.getPlaceId());
                         }
-
-
                     }
                 }
             configureClickIconMap();
@@ -158,12 +136,8 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
 
 
     private boolean onClickMarker(Marker marker) {
-        System.out.println("-----------------onclickmarker-----------");
-        System.out.println("-------------size-------------"+resultClickMarker.size());
 
         for(Result result1 : resultClickMarker ) {
-            System.out.println("-----------icon------------"+result1.getPlaceId());
-            System.out.println("-----------tag------------"+marker.getId().toString());
 
             if (marker.getTag().equals(result1.getPlaceId())) {
                 Intent intent = new Intent(getActivity(), DetailsRestaurantActivity.class);
@@ -171,24 +145,12 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
                 startActivity(intent);
 
             } else {
-                //return false;
+
             }
 
         }
         return true;
-        /*
-        if (marker.getTag() != null){
 
-            Intent intent = new Intent(getActivity(),DetailsRestaurantActivity.class);
-            intent.putExtra("restaurantSelected", marker.getTag().toString());
-            startActivity(intent);
-            return true;
-        }else{
-
-            return false;
-        }
-
-         */
     }
 
 
@@ -220,8 +182,6 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
 
                     }
-
-
                 }).check();
     }
 
@@ -236,48 +196,10 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         getCurrentLocation();
-        // TODO: Consider calling
-        //    ActivityCompat#requestPermissions
-        // here to request the missing permissions, and then overriding
-        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-        //                                          int[] grantResults)
-        // to handle the case where the user grants the permission. See the documentation
-        // for ActivityCompat#requestPermissions for more details.
-
-
 
         mFusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 mLocation = task.getResult();
-
-                // -------------------
-                // HTTP (RxJAVA)
-                // -------------------
-
-/*
-                this.disposable = RetrofitStreams.getPlaceResultsLiveData(mLocation.getLongitude()+","+mLocation.getLatitude()).subscribeWith(new DisposableObserver<RestaurantPlace>() {
-                    @Override
-                    public void onNext(RestaurantPlace restaurantPlace) {
-                        System.out.println("----------------------onnext-----------------");
-                        System.out.println("----------------------restaurant status-----------------"+restaurantPlace.getStatus());
-                        System.out.println("----------------------restaurant next-----------------"+restaurantPlace.getNextPageToken());
-                        updateUI(restaurantPlace);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("----------------------onerror-----------------");
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        System.out.println("----------------------oncomplete-----------------");
-                    }
-                });
-
- */
-
-
             }
 
         });
@@ -290,67 +212,17 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
-    // -------------------
-    // UPDATE UI
-    // -------------------
-
-    private void updateUI(RestaurantPlace restaurantPlace) {
-        System.out.println("----------------updateui-------------------------");
-        try {
-            mMap.clear();
-            System.out.println("-------------------size results-----------"+restaurantPlace.getResults().size());
-            for (Result r : restaurantPlace.getResults()) {
-                System.out.println("------------------for-------------------------");
-                double lat = r.getGeometry().getLocation().getLat();
-                double lng = r.getGeometry().getLocation().getLng();
-                String name = r.getName();
-                MarkerOptions markerOptions = new MarkerOptions();
-                LatLng latLng = new LatLng(lat, lng);
-                markerOptions.position(latLng);
-                markerOptions.title(name);
-                mMap.addMarker(markerOptions);
-            }
-        } catch (Exception e) {
-            Log.d("onResponse", "There is an error");
-            e.printStackTrace();
-        }
-         /* results.clear();
-            githubUsers.addAll(users);
-            adapter.notifyDataSetChanged();
-            swipeRefreshLayout.setRefreshing(false);
-
-            */
-    }
 
     private void initUserList()   {
-        //userViewModel.getUserList().observe(this,this::userList);
         userViewModel.getDataBaseInstanceUser();
         userViewModel.getAllUsersFromDataBase();
         userViewModel.getAllUsers().observe(this, this::userList);
-        System.out.println("----------------list user--------------"+userViewModel.getUserList());
-
     }
 
     private void userList(List<User> users) {
         this.userList = users;
     }
+
 }
-/*
-        private void disposeWhenDestroy () {
-            if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
-        }
-
-        // -------------------
-        // UPDATE UI
-        // -------------------
-
-        private void updateUI (PlaceResults users){
-            // placeResults.clear();
-            //placeResults.addAll(users);
-            // adapter.notifyDataSetChanged();
-            //swipeRefreshLayout.setRefreshing(false);
-        }
-
- */
 
 
