@@ -18,20 +18,20 @@
         android:contentDescription="@string/content_description_delete_button"
         />
 
-<TextView
-    android:id="@+id/item_name"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/list_view_item_name_start"
-    android:layout_marginEnd="@dimen/list_view_item_name_end"
-    android:layout_marginTop="@dimen/list_view_item_name_top"
-    android:maxLines="1"
-    android:singleLine="true"
-    android:textStyle="bold"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toStartOf="@+id/item_restaurant_distance"
-    />
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/list_view_item_name_start"
+        android:layout_marginEnd="@dimen/list_view_item_name_end"
+        android:layout_marginTop="@dimen/list_view_item_name_top"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/item_restaurant_distance"
+        />
 
 
     <TextView
@@ -74,7 +74,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginTop="@dimen/margin_top_restaurant_type"
         android:ellipsize="end"
-        android:textSize="@dimen/normal"
+        android:textSize="@dimen/item_address_text_size"
         android:textStyle="normal"
         android:singleLine="true"
         tools:text="@string/item_text_address"

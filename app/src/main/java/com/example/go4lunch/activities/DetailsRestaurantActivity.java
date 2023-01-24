@@ -296,8 +296,6 @@ public class DetailsRestaurantActivity extends AppCompatActivity {
         userList.clear();
 
         for(User user : users){
-            System.out.println("--------------resto choice-------"+user.getRestaurantChoice());
-            System.out.println("--------------place id-------"+restaurant.getPlaceId());
             try {
                 if( user.getRestaurantChoice().equalsIgnoreCase(restaurant.getPlaceId())){
                     System.out.println("--------------test-------");

@@ -5,19 +5,19 @@
 
     <item
         android:id="@+id/activity_main_your_lunch"
-        android:icon="@drawable/baseline_restaurant_menu_24"
+        android:icon="@drawable/baseline_restaurant_menu"
         android:title="@string/activity_main_lunch_label"
         />
 
     <item
         android:id="@+id/activity_main_settings"
-        android:icon="@drawable/baseline_settings_24"
+        android:icon="@drawable/baseline_settings"
         android:title="@string/activity_main_settings_label"
         />
 
     <item
         android:id="@+id/activity_main_logout"
-        android:icon="@drawable/baseline_power_settings_new_24"
+        android:icon="@drawable/baseline_power_settings_new"
         android:title="@string/activity_main_logout_label"
         />
 

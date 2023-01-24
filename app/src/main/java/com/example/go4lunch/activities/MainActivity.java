@@ -5,10 +5,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 import static com.facebook.FacebookSdk.sdkInitialize;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -179,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureToolBar(){
         this.toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.baseline_search_white_24));
+        toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.baseline_search_white));
     }
 
     // Configure Drawer Layout

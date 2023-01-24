@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable-hdpi/baseline_restaurant_menu.xml" value="0.1835" />
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable-hdpi/baseline_restaurant_menu_24.xml" value="0.179" />
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable-hdpi/baseline_settings_24.xml" value="0.179" />
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable-mdpi/ic_star_border_white_24dp.xml" value="0.1" />
@@ -16,12 +17,23 @@
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/baseline_people_24.xml" value="0.1785" />
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/baseline_power_settings_new_24.xml" value="0.179" />
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/baseline_public_24.xml" value="0.1" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/baseline_restaurant_menu.xml" value="0.1835" />
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/baseline_restaurant_menu_24.xml" value="0.179" />
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/baseline_settings_24.xml" value="0.179" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/baseline_view_list.xml" value="0.1835" />
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/baseline_view_list_24.xml" value="0.1" />
-        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout/activity_details_restaurant.xml" value="0.33" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/outline_check_circle_24.xml" value="0.1835" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/drawable/outline_location_on_24.xml" value="0.1835" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout-large/activity_details_restaurant.xml" value="0.128125" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout-large/activity_main_nav_header.xml" value="0.5" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout-large/fragment_list_view_item.xml" value="0.128125" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout-large/fragment_workmates_item.xml" value="0.128125" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout-xlarge/activity_main_nav_header.xml" value="0.128125" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout-xlarge/fragment_list_view_item.xml" value="0.128125" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout-xlarge/fragment_workmates_item.xml" value="0.128125" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout/activity_details_restaurant.xml" value="0.1" />
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout/activity_main_nav_header.xml" value="0.1" />
+        <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout/activity_main_nav_header.xml" value="0.5" />
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout/fragment_list_view.xml" value="0.17083333333333334" />
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout/fragment_list_view_item.xml" value="0.33" />
         <entry key="..\:/Users/smail/Documents/openclassroom/Go4Lunch/app/src/main/res/layout/fragment_maps.xml" value="0.1" />

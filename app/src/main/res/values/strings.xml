@@ -60,6 +60,8 @@
     <string name="map_view_bottom_text">Map View</string>
     <string name="list_view_bottom_text">List View</string>
     <string name="workmates_bottom_text">Workmates</string>
+    <string name="list_view_item_text">300m</string>
+    <string name="list_view_item_guest_text">(2)</string>
 
 
 </resources>

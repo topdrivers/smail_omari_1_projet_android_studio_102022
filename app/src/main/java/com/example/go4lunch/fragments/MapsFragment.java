@@ -114,12 +114,12 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
                 if(userViewModel.isCurrentUserLogged()) {
                     for (User user : userList) {
                         if (result.getPlaceId().equalsIgnoreCase(user.getRestaurantChoice())) {
-                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_place_booked_24));
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_place_booked));
                             Marker marker = mMap.addMarker(markerOptions);
                             marker.setTag(result.getPlaceId());
                             break;
                         } else {
-                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_place_unbook_24));
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_place_unbook));
                             Marker marker = mMap.addMarker(markerOptions);
                             marker.setTag(result.getPlaceId());
                         }

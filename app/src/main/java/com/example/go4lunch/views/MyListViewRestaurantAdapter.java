@@ -2,7 +2,6 @@ package com.example.go4lunch.views;
 
 import android.graphics.Color;
 import android.location.Location;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +12,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.example.go4lunch.BuildConfig;
-import com.example.go4lunch.activities.DetailsRestaurantActivity;
 import com.example.go4lunch.dataSource.models.Result;
 import com.example.go4lunch.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.Arrays;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MyListViewRestaurantAdapter extends RecyclerView.Adapter<MyListViewRestaurantAdapter.ViewHolder>{
 
@@ -50,7 +43,10 @@ public class MyListViewRestaurantAdapter extends RecyclerView.Adapter<MyListView
 
         Result restaurant = restaurantList.get(position);
         holder.restaurantName.setText(restaurant.getName());
-        holder.restaurantAddress.setText(restaurant.getVicinity());
+
+        List<String> result = Arrays.asList(restaurant.getVicinity().split(","));
+
+        holder.restaurantAddress.setText(result.get(0));
 
         location = new Location("service provider");
         location.setLatitude(48.550720);
@@ -87,7 +83,7 @@ public class MyListViewRestaurantAdapter extends RecyclerView.Adapter<MyListView
 
         }catch (NullPointerException e){
             System.err.println("Null image reference OR Null opening hour or null rating ");
-            holder.restaurantAvatar.setImageResource(R.drawable.baseline_restaurant_menu_black_20);
+            holder.restaurantAvatar.setImageResource(R.drawable.baseline_restaurant_menu);
         }
 
     }

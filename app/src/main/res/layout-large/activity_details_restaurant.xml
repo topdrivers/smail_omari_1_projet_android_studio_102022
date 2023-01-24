@@ -9,54 +9,54 @@
     tools:context=".activities.DetailsRestaurantActivity">
 
 
-        <ImageView
-            android:id="@+id/details_activity_image"
+    <ImageView
+        android:id="@+id/details_activity_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/details_image_height"
+        android:src="@drawable/reunion"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:contentDescription="@string/details_restaurant_activity_image"
+        android:contentDescription="@string/content_description_details_activity_image"
+        />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/details_activity_floating_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:contentDescription="@string/details_restaurant_activity_floating_button"
+        app:layout_constraintTop_toBottomOf="@+id/details_activity_image"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/details_fragment_cardview_info"
+        android:layout_marginEnd="@dimen/details_floating_button_margin_end"
+        android:clickable="true"
+        android:src="@drawable/ic_baseline_check_circle_24"
+        app:backgroundTint="@color/white"
+        android:focusable="true"
+        android:contentDescription="@string/content_description_details_activity_floating_button"
+        />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/details_fragment_cardview_info"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:cardCornerRadius="0dp"
+        android:orientation="vertical"
+        app:cardBackgroundColor="@color/google_red"
+        app:layout_constraintTop_toBottomOf="@+id/details_activity_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        >
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/details_image_height"
-            android:src="@drawable/reunion"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:contentDescription="@string/details_restaurant_activity_image"
-            android:contentDescription="@string/content_description_details_activity_image"
-            />
-
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/details_activity_floating_button"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:contentDescription="@string/details_restaurant_activity_floating_button"
-            app:layout_constraintTop_toBottomOf="@+id/details_activity_image"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/details_fragment_cardview_info"
-            android:layout_marginEnd="@dimen/details_floating_button_margin_end"
-            android:clickable="true"
-            android:src="@drawable/ic_baseline_check_circle_24"
-            app:backgroundTint="@color/white"
-            android:focusable="true"
-            android:contentDescription="@string/content_description_details_activity_floating_button"
-            />
-
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/details_fragment_cardview_info"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:cardCornerRadius="0dp"
             android:orientation="vertical"
-            app:cardBackgroundColor="@color/google_red"
-            app:layout_constraintTop_toBottomOf="@+id/details_activity_image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/guideline7"
             >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,44 +83,43 @@
 
             </LinearLayout>
 
-                <LinearLayout
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/details_layout_margin_start"
+                >
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="@dimen/details_layout_margin_start"
-                    >
+                    android:text="@string/restaurant_type"
+                    android:textSize="@dimen/details_type_text_size"
+                    />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/restaurant_type"
-                        />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/restaurant_tiret"
+                    android:layout_marginStart="@dimen/details_text_view_margin_start"
+                    />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/restaurant_tiret"
-                        android:layout_marginStart="@dimen/details_text_view_margin_start"
-                        />
-
-                    <TextView
-                        android:id="@+id/details_restaurant_address"
-                        android:layout_width="@dimen/details_addres_width"
-                        android:layout_height="wrap_content"
-                        android:text="@string/restaurant_address"
-                        android:layout_marginStart="@dimen/details_address_tv_margin_start"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-
-                        />
-
-                </LinearLayout>
-
+                <TextView
+                    android:id="@+id/details_restaurant_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/restaurant_address"
+                    android:layout_marginStart="@dimen/details_address_tv_margin_start"
+                    android:textSize="@dimen/details_addres_text_size"
+                    />
 
             </LinearLayout>
 
 
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -214,13 +213,13 @@
         app:layout_constraintStart_toEndOf="@+id/detail_activity_like_button"
         />
 
-<androidx.recyclerview.widget.RecyclerView
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:id="@+id/details_restaurant_activity_recycler_view"
-    app:layout_constraintTop_toBottomOf="@+id/guideline5"
-    app:layout_constraintBottom_toBottomOf="parent"
-    />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/details_restaurant_activity_recycler_view"
+        app:layout_constraintTop_toBottomOf="@+id/guideline5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
