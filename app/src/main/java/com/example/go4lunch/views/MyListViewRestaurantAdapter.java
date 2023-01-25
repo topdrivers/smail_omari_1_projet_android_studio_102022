@@ -83,7 +83,7 @@ public class MyListViewRestaurantAdapter extends RecyclerView.Adapter<MyListView
 
         }catch (NullPointerException e){
             System.err.println("Null image reference OR Null opening hour or null rating ");
-            holder.restaurantAvatar.setImageResource(R.drawable.baseline_restaurant_menu);
+            holder.restaurantAvatar.setImageResource(R.drawable.baseline_restaurant_menu_white);
         }
 
     }

@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.example.go4lunch.activities.DetailsRestaurantActivity;
 import com.example.go4lunch.dataSource.models.RestaurantPlace;
@@ -200,6 +201,13 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
         mFusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 mLocation = task.getResult();
+                mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                View locationButton = ((View) getView().findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+                RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+                rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+                rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                rlp.setMargins(0, 0, 30, 30);
             }
 
         });

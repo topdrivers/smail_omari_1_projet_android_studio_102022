@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name">I\'m hugry !</string>
+    <string name="google_map_api_key">AIzaSyDBrw5T0cNzqnSGQW6vA_QADtMBa1t-sR8</string>
+
+    <!-- Used in NavigationDrawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="application_name">Go4Lunch</string>
+    <string name="name_profil">John Smith</string>
+    <string name="email_profil">jsmith1337@gmail.com</string>
+    <string name="connection_succeed">Successful authentication</string>
+    <string name="error_authentication_canceled">error cancelled authentication</string>
+    <string name="error_no_internet">error no internet network</string>
+    <string name="error_unknown_error">unknown</string>
+    <string name="permission_rationale_location">This app needs location permission to function properly</string>
+    <string name="Open_drawer_menu">Open menu</string>
+    <string name="Close_drawer_menu">Close menu</string>
+    <string name="details_restaurant_activity_image">content description image</string>
+    <string name="details_restaurant_activity_floating_button">content description floating action button</string>
+    <string name="activity_details_restaurant_name">L\'écluse</string>
+    <string name="restaurant_type">French Restaurant</string>
+    <string name="restaurant_address">12 rue du faubourg poissonnière</string>
+    <string name="button_to_call_the_restaurant">Call restaurant by phone</string>
+    <string name="button_to_add_the_restaurant_to_the_favourite">Like Button</string>
+    <string name="button_to_visit_the_website_of_the_restaurant">Website link button</string>
+    <string name="call">CALL</string>
+    <string name="like">LIKE</string>
+    <string name="website">WEBSITE</string>
+    <string name="restaurant_tiret">-</string>
+
+
+    <!--Facebook-->
+    <string name="facebook_application_id">653886016235966</string>
+    <string name="fb_login_protocol_scheme">fb653886016235966</string>
+    <string name="facebook_client_token">c0221d005962bf4a690e49a858856234</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="content_description_delete_button">item image view content description</string>
+    <string name="item_text_name">A l\'Auberge</string>
+    <string name="item_text_restaurant_type">French</string>
+    <string name="item_text_address">5 rue de bâle, Strasbourg</string>
+    <string name="item_text_opening_hour">Open soon</string>
+    <string name="workmates_icon">content description workmates icon</string>
+    <string name="workmates_avatar">content description workmates avatar</string>
+    <string name="workmate_is_joining_this_restaurant">%s is joining %s</string>
+    <string name="workmate_is_joining">%s is joining</string>
+    <string name="workmate_has_not_selected_a_restaurant">%s hasn\'t decided yet</string>
+    <string name="search_title">Search</string>
+    <string name="search_query_hint">Find a restaurant</string>
+    <string name="search_too_short">Your query must be 3 character length minimum</string>
+    <string name="toolbar_search_hint">Search</string>
+    <string name="no_restaurant_error_message">No restaurants found, try to change your search radius settings</string>
+    <string name="content_description_details_activity_image">content description image details</string>
+    <string name="content_description_details_activity_floating_button">content description details activity floating button</string>
+    <string name="content_description_image_view_menu_drawer">content description image view menu drawer</string>
+    <string name="tiret">-</string>
+    <string name="activity_main_lunch_label">YOUR LUNCH</string>
+    <string name="activity_main_settings_label">SETTINGS</string>
+    <string name="activity_main_logout_label">LOGOUT</string>
+    <string name="map_view_bottom_text">Map View</string>
+    <string name="list_view_bottom_text">List View</string>
+    <string name="workmates_bottom_text">Workmates</string>
+    <string name="list_view_item_text">300m</string>
+    <string name="list_view_item_guest_text">(2)</string>
+    <string name="content_description_image_navigation_view">content description image navigation view</string>
+    <string name="list_fragment_search_restaurant">Search restaurants</string>
+
+
+</resources>
