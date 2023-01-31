@@ -119,10 +119,7 @@ public class ListViewFragment extends Fragment {
         return new DisposableObserver<T>() {
             @Override
             public void onNext(T t) {
-                System.out.println("-----------T-------------"+t.getClass().isArray());
-
                 if (t instanceof ArrayList){
-                    System.out.println("-----------tT-------------"+t);
                     update((ArrayList) t);
                 }
             }
