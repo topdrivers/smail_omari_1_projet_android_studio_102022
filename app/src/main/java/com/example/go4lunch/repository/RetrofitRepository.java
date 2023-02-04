@@ -27,10 +27,11 @@ public class RetrofitRepository {
     }
 
     // --- GET ---
-    public LiveData<RestaurantPlace> getResults(){
+    public LiveData<RestaurantPlace> getResults(Double latitude, Double longitude){
 
         RetrofitStreams retrofitStreams = new RetrofitStreams(PlaceService.retrofit.create(PlaceService.class));
-        return retrofitStreams.getPlaceResultsLiveData("48.550720,7.763412");
+        //return retrofitStreams.getPlaceResultsLiveData("48.550720,7.763412");
+        return retrofitStreams.getPlaceResultsLiveData(latitude.toString()+","+longitude.toString());
     }
 
     public Observable<List<Result>> getAutoCompleteResults(String location, String autocompleteString){

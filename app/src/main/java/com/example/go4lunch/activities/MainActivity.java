@@ -3,6 +3,8 @@ package com.example.go4lunch.activities;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 
+import static androidx.test.InstrumentationRegistry.getContext;
+import static com.example.go4lunch.fragments.ListViewFragment.retrofitViewModel;
 import static com.facebook.FacebookSdk.sdkInitialize;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -10,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -20,14 +23,28 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Fragment;
+import android.app.SearchManager;
+import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.RecognizerIntent;
+import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.example.go4lunch.databinding.ActivityMainBinding;
 import com.example.go4lunch.fragments.ListViewFragment;
@@ -49,15 +66,19 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.disposables.Disposable;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, EasyPermissions.PermissionCallbacks, BottomNavigationView.OnNavigationItemSelectedListener {
-    private static final int RC_SIGN_IN = 123;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, EasyPermissions.PermissionCallbacks, BottomNavigationView.OnNavigationItemSelectedListener{
+    private static final int RC_SIGN_IN = 123 ;
+    private static final int REQ_CODE_SPEECH_INPUT = 12 ;
     //FOR DESIGN
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -86,6 +107,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         configureUserViewModel();
         sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(getApplication());
+/*
+        Button buttonSpeak = findViewById(R.id.option_menu_search);
+        buttonSpeak.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                promptSpeechInput();
+            }
+        });
+
+
+
+        Button settingsButton = findViewById(R.id.activity_main_settings);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(myIntent);
+            }
+        });
+
+ */
+
+
     }
 
 
@@ -137,6 +182,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_your_lunch:
                 break;
             case R.id.activity_main_settings:
+                Intent myIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(myIntent);
+                //launchActivity(SettingsActivity.class,null);
                 break;
 
             case R.id.activity_main_logout:
@@ -280,7 +328,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         this.handleResponseAfterSignIn(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+                    ActionMenuItemView input = ((ActionMenuItemView) findViewById(R.id.option_menu_search));
+                    input.setText(result.get(0)); // set the input data to the editText alongside if want to.
+
+                }
+                break;
+            }
+
+        }
     }
+
+
 
     // Method that handles response after SignIn Activity close
     private void handleResponseAfterSignIn(int requestCode, int resultCode, Intent data){
@@ -402,4 +466,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+
+    private void promptSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                getString(R.string.speech_prompt));
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.speech_not_supported),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+
+            mapsFragment.searchView.setQuery(query, false);
+        }
+    }
+
 }
+
+
+
+
+
+

@@ -18,6 +18,17 @@
             android:background="@color/coral"
             app:layout_constraintTop_toTopOf="parent"
             />
+<!--
+        <ImageButton
+            android:id="@+id/main_voice_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_keyboard_voice_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/activity_main_toolbar"
+            app:layout_constraintTop_toTopOf="@id/activity_main_toolbar"
+            />
+            -->
 
         <FrameLayout
             android:layout_width="0dp"

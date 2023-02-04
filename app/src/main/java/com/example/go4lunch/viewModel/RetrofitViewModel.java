@@ -27,17 +27,17 @@ public class RetrofitViewModel extends ViewModel {
         this.retrofitDataSource = retrofitDataSource;
     }
 
-    public void init() {
+    public void init(Double latitude, Double longitude) {
         if (this.results != null) {
             return;
         }
-        results = retrofitDataSource.getResults();
+        results = retrofitDataSource.getResults(latitude,longitude);
     }
 
     // -------------
     // FOR Results
     // -------------
-    public LiveData<RestaurantPlace> getResults() { return retrofitDataSource.getResults();  }
+    public LiveData<RestaurantPlace> getResults(Double latitude, Double longitude) { return retrofitDataSource.getResults( latitude,  longitude);  }
 
     public Observable<List<Result>> getAutoCompletePlaceResults(String location, String autocompleteString){
         return retrofitDataSource.getAutoCompleteResults(location, autocompleteString);

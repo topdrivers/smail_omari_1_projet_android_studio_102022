@@ -1,5 +1,7 @@
 package com.example.go4lunch.fragments;
 
+import static com.example.go4lunch.fragments.MapsFragment.mLocation;
+
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -170,7 +172,7 @@ public class ListViewFragment extends Fragment {
     }
 
     public void initList()   {
-        retrofitViewModel.getResults().observe(this,this::getListRestaurant);
+        retrofitViewModel.getResults(mLocation.getLatitude(), mLocation.getLongitude()).observe(this,this::getListRestaurant);
 
     }
 
@@ -189,8 +191,8 @@ public class ListViewFragment extends Fragment {
     public void configureViewModel(){
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
         retrofitViewModel = new ViewModelProvider(this, viewModelFactory).get(RetrofitViewModel.class);
-        retrofitViewModel.init();
-        retrofitViewModel.getResults();
+        retrofitViewModel.init(mLocation.getLatitude(), mLocation.getLongitude());
+        retrofitViewModel.getResults(mLocation.getLatitude(), mLocation.getLongitude());
     }
 
     //Action click item recycler view

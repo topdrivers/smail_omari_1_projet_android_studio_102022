@@ -1,7 +1,9 @@
 package com.example.go4lunch.fragments;
 
+import static android.app.appsearch.AppSearchResult.RESULT_OK;
 import static com.example.go4lunch.activities.MainActivity.userViewModel;
 
+import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -11,6 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.SearchManager;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,6 +22,8 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.RecognizerIntent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -60,6 +66,7 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.OptionalDouble;
@@ -68,7 +75,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
 public class MapsFragment extends Fragment  implements OnMapReadyCallback {
-    private Location mLocation;
+    public static Location mLocation;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleMap mMap;
     private static final float DEFAULT_ZOOM = 15;
@@ -82,18 +89,10 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
     FirebaseAuth firebaseAuth;
     public  RetrofitViewModel retrofitViewModel;
     List<Result> results;
-    Double latValue;
-    Double lngValue;
-    Double latValueSum;
-    Double lngValueSum;
-    OptionalDouble latValueMin;
-    OptionalDouble lngValueMin;
-    OptionalDouble latValueMax;
-    OptionalDouble lngValueMax;
-    LatLngBounds.Builder builder ;
-    LatLngBounds mLatLngBounds ;
     ArrayList<Marker> markers = new ArrayList<>();
     int j =0;
+    public  SearchView searchView;
+
 
     public static MapFragment newInstance() {
         return (new MapFragment());
@@ -127,6 +126,8 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
 
     }
 
+
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
 
@@ -135,17 +136,28 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
 
         inflater.inflate(R.menu.options_menu, menu);
 
+//        SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
+        // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
 
+
+
         MenuItem item = menu.findItem(R.id.option_menu_search);
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        //item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
 
         SearchView searchView = (SearchView) item.getActionView();
-        //searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchActivity.class)));
         searchView.setQueryHint(getString(R.string.list_fragment_search_restaurant));
         searchView.setBackgroundColor(Color.WHITE);
+        searchView.setGravity(Gravity.START);
+        searchView.onActionViewExpanded();
+        searchView.clearFocus();
 
+        searchView.getOverlay();
+        //searchView.setRight(R.drawable.ic_baseline_keyboard_voice_24);
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setIconifiedByDefault(false);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -172,8 +184,13 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
 
     }
 
+
+
+
+
     public void initList()   {
-        retrofitViewModel.getResults().observe(this,this::getListRestaurant);
+        Location location = getCurrentLocation();
+        retrofitViewModel.getResults(location.getLatitude(), location.getLongitude()).observe(this,this::getListRestaurant);
 
     }
 
@@ -233,19 +250,18 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
             }catch (IllegalStateException e){
                 System.err.println(e.getMessage());
             }
-            
+
 
         }
 
 
-
-
     private void configureViewModel(){
+        mLocation = new Location("provider");
         ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(requireActivity());
         retrofitViewModel = new ViewModelProvider(this, mViewModelFactory).get(RetrofitViewModel.class);
-        retrofitViewModel.init();
-        retrofitViewModel.getResults();
-        retrofitViewModel.getResults().observe(requireActivity(),this::getResultList);
+        retrofitViewModel.init(mLocation.getLatitude(),mLocation.getLongitude());
+        retrofitViewModel.getResults(mLocation.getLatitude(),mLocation.getLongitude());
+        retrofitViewModel.getResults(mLocation.getLatitude(),mLocation.getLongitude()).observe(requireActivity(),this::getResultList);
     }
 
     private void getResultList(RestaurantPlace restaurantPlace) {
@@ -302,7 +318,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
     }
 
 
-    private void getCurrentLocation() {
+    private Location getCurrentLocation() {
         Dexter.withContext(getActivity())
                 .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(new PermissionListener() {
@@ -331,6 +347,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
 
                     }
                 }).check();
+        return mLocation;
     }
 
     @Override
@@ -383,6 +400,38 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
     private void userList(List<User> users) {
         this.userList = users;
     }
+
+
+    public void promptSpeechInput(){
+        Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, Locale.getDefault());
+        i.putExtra(RecognizerIntent.EXTRA_PROMPT,"say something");
+
+        try {
+            startActivityForResult(i, 100);
+        }catch(ActivityNotFoundException a){
+            Toast.makeText(getContext(),"sorry your device does not support speech to text ",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int request_code,int result_code,Intent i){
+        super.onActivityResult(request_code,result_code,i);
+
+        switch (request_code)
+        {
+            case 100: if(result_code == RESULT_OK && i != null){
+                ArrayList<String> result = i.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                //resultText.setText(result.get(0));
+                Toast.makeText(getContext(),result.get(0),Toast.LENGTH_SHORT).show();
+            }
+                break;
+        }
+    }
+
+
+
 
 }
 

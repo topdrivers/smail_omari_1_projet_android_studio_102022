@@ -1,6 +1,7 @@
 package com.example.go4lunch.fragments;
 
 import static com.example.go4lunch.activities.MainActivity.userViewModel;
+import static com.example.go4lunch.fragments.MapsFragment.mLocation;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -77,12 +78,12 @@ public class WorkmatesFragment extends Fragment {
         this.resultList = new ArrayList<>();
         ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(requireActivity());
         retrofitViewModel = new ViewModelProvider(this, mViewModelFactory).get(RetrofitViewModel.class);
-        retrofitViewModel.init();
-        retrofitViewModel.getResults();
+        retrofitViewModel.init(mLocation.getLatitude(), mLocation.getLongitude());
+        retrofitViewModel.getResults(mLocation.getLatitude(), mLocation.getLongitude());
     }
 
     private void initRestaurantList()   {
-        retrofitViewModel.getResults().observe(this,this::getListRestaurant);
+        retrofitViewModel.getResults(mLocation.getLatitude(), mLocation.getLongitude()).observe(this,this::getListRestaurant);
 
     }
 
