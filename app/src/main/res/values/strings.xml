@@ -67,9 +67,11 @@
     <string name="speech_prompt">speech prompt</string>
     <string name="speech_not_supported">speech not supported</string>
     <string name="settings_zoom_title">settings zoom title</string>
-    <string name="settings_search_radius_title">settings search radius title</string>
+    <string name="settings_search_radius_title">radius between 1500 and 10500</string>
     <string name="settings_notification_title">settings notification title</string>
-    <string name="settings_save_text">settings save text</string>
+    <string name="settings_save_text">save settings</string>
+    <string name="settings_radius_limit_erro">Put a value between limit settings</string>
+    <string name="settings_saved_value">Values entered are saved</string>
 
 
 </resources>

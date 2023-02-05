@@ -35,18 +35,19 @@ public class RetrofitStreams implements LifecycleOwner {
     public static  PlaceService placeService;
     public static MutableLiveData<RestaurantPlace> restaurantPlaceMutableLiveData= new MutableLiveData<>();
     public MutableLiveData<RestaurantPlace> autoCompleteRestaurantPlaceMutable= new MutableLiveData<>();
-    private int radius = 1500;
+    public static int radius = 1500;
+    public static int zoom = 10;
 
     public RetrofitStreams(PlaceService placeService) {
         this.placeService = placeService;
     }
 
-    public int getRadius() {
+    public   int getRadius() {
         return radius;
     }
 
-    public void setRadius(int radius) {
-        this.radius = radius;
+    public static void setRadius(int radius) {
+        radius = radius;
     }
 
     public static LiveData<RestaurantPlace> getPlaceResultsLiveData(String location) {
@@ -55,7 +56,7 @@ public class RetrofitStreams implements LifecycleOwner {
         System.out.println("---------------------getplaceresults---------------");
 
 
-        Call<RestaurantPlace> restaurantPlaceCall = placeService.getNearby(location, 1500, "restaurant", /*BuildConfig.MAPS_API_KEY*/"AIzaSyDBrw5T0cNzqnSGQW6vA_QADtMBa1t-sR8");
+        Call<RestaurantPlace> restaurantPlaceCall = placeService.getNearby(location, radius, "restaurant", /*BuildConfig.MAPS_API_KEY*/"AIzaSyDBrw5T0cNzqnSGQW6vA_QADtMBa1t-sR8");
         System.out.println("------------location----------"+location);
         restaurantPlaceCall.enqueue(new Callback<RestaurantPlace>() {
             @Override
@@ -81,7 +82,7 @@ public class RetrofitStreams implements LifecycleOwner {
 //        Call<RestaurantPlace> autocompleteRestaurantPlace = placeService.getAutocomplete(autocompleteString, 1500, "48.550720,7.763412", "restaurant" );
         //PlaceService autocompleteRestaurantPlace = placeService.getAutocomplete(autocompleteString, 1500, "48.550720,7.763412", "restaurant" );
 
-        return placeService.getAutocomplete(autocompleteString, 1500, "48.550720,7.763412", "restaurant")
+        return placeService.getAutocomplete(autocompleteString, radius, "48.550720,7.763412", "restaurant")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

@@ -3,6 +3,7 @@ package com.example.go4lunch.repository;
 
 
 
+import static com.example.go4lunch.dataSource.remoteData.RetrofitStreams.radius;
 import static com.example.go4lunch.dataSource.remoteData.RetrofitStreams.streamFetchAutoCompleteInformations;
 
 import androidx.lifecycle.LiveData;
@@ -36,10 +37,10 @@ public class RetrofitRepository {
 
     public Observable<List<Result>> getAutoCompleteResults(String location, String autocompleteString){
         RetrofitStreams retrofitStreams = new RetrofitStreams(PlaceService.retrofit.create(PlaceService.class));
-        return streamFetchAutoCompleteInformations(autocompleteString, location, 6500, "");
+        return streamFetchAutoCompleteInformations(autocompleteString, location, radius, "");
     }
 
     public Observable<AutocompleteResult> streamFetchAutoComplete(String location, String query) {
-        return RetrofitStreams.streamFetchAutoComplete(query,location, 6500, "");
+        return RetrofitStreams.streamFetchAutoComplete(query,location, radius, "");
     }
 }

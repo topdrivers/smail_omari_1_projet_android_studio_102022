@@ -50,6 +50,7 @@ import com.example.go4lunch.databinding.ActivityMainBinding;
 import com.example.go4lunch.fragments.ListViewFragment;
 import com.example.go4lunch.fragments.MapsFragment;
 import com.example.go4lunch.R;
+import com.example.go4lunch.fragments.SettingsFragment;
 import com.example.go4lunch.fragments.WorkmatesFragment;
 import com.example.go4lunch.injection.Injection;
 import com.example.go4lunch.injection.UserViewModelFactory;
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final MapsFragment mapsFragment = new MapsFragment();
     private final ListViewFragment listViewFragment= new ListViewFragment();
     private final WorkmatesFragment workmatesFragment = new WorkmatesFragment();
+    private final SettingsFragment settingsFragment = new SettingsFragment();
     final MutableLiveData<Boolean> hasPermissions = new MutableLiveData<>();
     public static UserViewModel userViewModel;
     Disposable disposable;
@@ -182,9 +184,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_your_lunch:
                 break;
             case R.id.activity_main_settings:
-                Intent myIntent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(myIntent);
-                //launchActivity(SettingsActivity.class,null);
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.activity_main_frame_layout,settingsFragment)
+                        .commit();
                 break;
 
             case R.id.activity_main_logout:

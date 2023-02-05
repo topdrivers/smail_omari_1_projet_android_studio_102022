@@ -70,6 +70,8 @@
     <string name="settings_search_radius_title">settings search radius title</string>
     <string name="settings_notification_title">settings notification title</string>
     <string name="settings_save_text">settings save text</string>
+    <string name="settings_radius_limit_erro">Put a value between limit settings</string>
+    <string name="settings_saved_value">Values entered are saved</string>
 
 
 </resources>
