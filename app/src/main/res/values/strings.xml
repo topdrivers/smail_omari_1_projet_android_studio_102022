@@ -72,6 +72,8 @@
     <string name="settings_save_text">save settings</string>
     <string name="settings_radius_limit_erro">Put a value between limit settings</string>
     <string name="settings_saved_value">Values entered are saved</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 
 
 </resources>

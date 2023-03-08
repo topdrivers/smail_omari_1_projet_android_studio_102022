@@ -1,6 +1,7 @@
 package com.example.go4lunch.fragments;
 
 import static com.example.go4lunch.fragments.MapsFragment.mLocation;
+import static com.example.go4lunch.fragments.MapsFragment.retrofitViewModel;
 
 import android.app.SearchManager;
 import android.content.ComponentName;
@@ -50,12 +51,13 @@ public class ListViewFragment extends Fragment {
 
     private MyListViewRestaurantAdapter myListViewRestaurantAdapter;
     private AutoCompleteListViewAdapter autoCompleteListViewAdapter;
-    public static RetrofitViewModel retrofitViewModel;
+    //public static RetrofitViewModel retrofitViewModel;
     public  List<Result> results;
     public List<com.example.go4lunch.dataSource.models.PlaceDetails.Result> resultPlaceDetails;
     private Disposable disposable;
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
+    private int fromFragment;
 
 
     public ListViewFragment() {
@@ -68,8 +70,8 @@ public class ListViewFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if(myListViewRestaurantAdapter!=null){
            initList();
-
         }
+        fromFragment = 0;
 
     }
 
@@ -199,11 +201,13 @@ public class ListViewFragment extends Fragment {
     public void configureOnClickRecyclerView(){
         ItemClickSupport.addTo(recyclerView, R.layout.fragment_list_view)
                 .setOnItemClickListener((recyclerView, position, v) -> {
+                    fromFragment=20;
                     Result restaurant = myListViewRestaurantAdapter.getRestaurant(position);
 
                     Intent myIntent = new Intent(getActivity(), DetailsRestaurantActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("restaurantSelected", restaurant);
+                    bundle.putSerializable("fromFragment", fromFragment);
                     myIntent.putExtras(bundle);
 
 

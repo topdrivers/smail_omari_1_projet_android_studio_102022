@@ -81,13 +81,14 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
     private static final float DEFAULT_ZOOM = 15;
     private float changingZoom = 15;
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
+    private int fromFragment;
 
     //FOR DATA
     private Disposable disposable;
     private List<User> userList;
     private List<Result> resultClickMarker;
     FirebaseAuth firebaseAuth;
-    public  RetrofitViewModel retrofitViewModel;
+    public static  RetrofitViewModel retrofitViewModel;
     List<Result> results;
     ArrayList<Marker> markers = new ArrayList<>();
     int j =0;
@@ -111,6 +112,16 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
             initUserList();
         }
         firebaseAuth = FirebaseAuth.getInstance();
+        fromFragment = 0;
+
+        if(mLocation!=null){
+            if(mMap!=null) {
+                configureViewModel();
+            }
+            if(mFusedLocationProviderClient!=null & mMap!=null) {
+                initList();
+            }
+        }
 
 
     }
@@ -122,7 +133,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
-        configureViewModel();
+        //configureViewModel();
 
     }
 
@@ -190,6 +201,8 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
 
     public void initList()   {
         Location location = getCurrentLocation();
+        System.out.println("--------location-------"+location);
+        System.out.println("----------retrofitviewmodel-------"+retrofitViewModel);
         retrofitViewModel.getResults(location.getLatitude(), location.getLongitude()).observe(this,this::getListRestaurant);
 
     }
@@ -256,15 +269,18 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
 
 
     private void configureViewModel(){
-        mLocation = new Location("provider");
+        //mLocation = new Location("provider");
+        //mLocation = getCurrentLocation();
         ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(requireActivity());
         retrofitViewModel = new ViewModelProvider(this, mViewModelFactory).get(RetrofitViewModel.class);
         retrofitViewModel.init(mLocation.getLatitude(),mLocation.getLongitude());
         retrofitViewModel.getResults(mLocation.getLatitude(),mLocation.getLongitude());
         retrofitViewModel.getResults(mLocation.getLatitude(),mLocation.getLongitude()).observe(requireActivity(),this::getResultList);
+        System.out.println("---------------------"+mLocation.getLongitude());
     }
 
     private void getResultList(RestaurantPlace restaurantPlace) {
+        System.out.println("---------------restoplace-------------"+restaurantPlace.getResults());
         resultClickMarker = restaurantPlace.getResults();
         mMap.clear();
         for(Result result : restaurantPlace.getResults()){
@@ -302,10 +318,11 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
     private boolean onClickMarker(Marker marker) {
 
         for(Result result1 : resultClickMarker ) {
-
+            fromFragment = 10;
             if (marker.getTag().equals(result1.getPlaceId())) {
                 Intent intent = new Intent(getActivity(), DetailsRestaurantActivity.class);
                 intent.putExtra("restaurantSelected",result1);
+                intent.putExtra("fromFragment",fromFragment);
                 startActivity(intent);
 
             } else {
@@ -329,6 +346,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
                             if (task.isSuccessful()) {
                                 mLocation = task.getResult();
                                 if (mLocation != null) {
+                                    System.out.println("----------mmap---------"+mMap);
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()), DEFAULT_ZOOM));
                                 } else {
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
@@ -353,7 +371,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
     @Override
     public void onResume() {
         super.onResume();
-        initList();
+        //initList();
     }
 
     @Override
@@ -370,7 +388,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
 
         mFusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                mLocation = task.getResult();
+                //mLocation = task.getResult();
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
                 View locationButton = ((View) getView().findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
@@ -381,9 +399,6 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
             }
 
         });
-
-
-
 
     }
     private void disposeWhenDestroy () {

@@ -3,8 +3,6 @@ package com.example.go4lunch.activities;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 
-import static androidx.test.InstrumentationRegistry.getContext;
-import static com.example.go4lunch.fragments.ListViewFragment.retrofitViewModel;
 import static com.facebook.FacebookSdk.sdkInitialize;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -28,10 +26,12 @@ import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.view.Gravity;
 import android.view.Menu;
@@ -46,6 +46,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.go4lunch.dataSource.models.Result;
 import com.example.go4lunch.databinding.ActivityMainBinding;
 import com.example.go4lunch.fragments.ListViewFragment;
 import com.example.go4lunch.fragments.MapsFragment;
@@ -95,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     final MutableLiveData<Boolean> hasPermissions = new MutableLiveData<>();
     public static UserViewModel userViewModel;
     Disposable disposable;
+    private Locale mCurrentLocale;
+    private int fromFragment = 0;
 
 
     @Override
@@ -109,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         configureUserViewModel();
         sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(getApplication());
+        getSerialisable();
 /*
         Button buttonSpeak = findViewById(R.id.option_menu_search);
         buttonSpeak.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +136,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
  */
 
+
+    }
+
+    private void getSerialisable() {
+
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+
+
+        if (bundle != null) {
+            fromFragment = (int) bundle.getSerializable("fromFragment");
+        }
+        if(fromFragment == 20){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.activity_main_frame_layout,listViewFragment)
+                    .commit();
+            BottomNavigationView bottomNavigationView;
+            bottomNavigationView = (BottomNavigationView) findViewById(R.id.activity_main_bottom_navigation_view);
+            bottomNavigationView.setSelectedItemId(R.id.bottom_list_view_button);
+
+        }else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.activity_main_frame_layout,mapsFragment)
+                    .commit();
+        }
+        fromFragment=0;
 
     }
 
@@ -493,6 +523,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             mapsFragment.searchView.setQuery(query, false);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mCurrentLocale = getResources().getConfiguration().locale;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Locale locale = getLocale(this);
+
+        if (!locale.equals(mCurrentLocale)) {
+
+            mCurrentLocale = locale;
+            recreate();
+        }
+    }
+
+    public static Locale getLocale(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String lang = sharedPreferences.getString("language", "en");
+        switch (lang) {
+            case "English":
+                lang = "en";
+                break;
+            case "Spanish":
+                lang = "es";
+                break;
+        }
+        return new Locale(lang);
     }
 
 }

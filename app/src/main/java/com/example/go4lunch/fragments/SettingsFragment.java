@@ -14,9 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.go4lunch.R;
+import com.example.go4lunch.activities.MainActivity;
 import com.example.go4lunch.dataSource.remoteData.RetrofitStreams;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -40,6 +43,11 @@ public class SettingsFragment extends Fragment {
     EditText editText ;
     private Button saveButton;
     int number;
+    Button button;
+    RadioButton genderradioButton;
+    RadioGroup radioGroup;
+    private RadioButton maleButton;
+    private RadioButton femaleButton;
 
 
     public SettingsFragment() {
@@ -117,8 +125,15 @@ public class SettingsFragment extends Fragment {
 
         editText = view.findViewById(R.id.settings_radius_edit_text);
         saveButton = view.findViewById(R.id.settings_save);
+        radioGroup=(RadioGroup)view.findViewById(R.id.radioGroup);
+        button = (Button)view.findViewById(R.id.button_selected);
+        maleButton = (RadioButton) view.findViewById(R.id.radioMale);
+        femaleButton = (RadioButton) view.findViewById(R.id.radioFemale);
+
+
         checkRadiusValue();
         saveAllSettings();
+        onclickbuttonMethod(getView());
         return view;
     }
 
@@ -128,6 +143,29 @@ public class SettingsFragment extends Fragment {
             public void onClick(View view) {
                 radius = number;
                 Toast.makeText(getContext(), getString(R.string.settings_saved_value), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void onclickbuttonMethod(View v){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+                System.out.println("----------------sel id---------"+selectedId);
+
+                if(maleButton.isEnabled()){
+                    Toast.makeText(getContext(),"male selected", Toast.LENGTH_SHORT).show();
+                }
+                if(femaleButton.isEnabled()){
+                    Toast.makeText(getContext(),"female selected", Toast.LENGTH_SHORT).show();
+                }
+                if(selectedId==-1)
+                    {
+                    Toast.makeText(getContext(),"noting selected", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }

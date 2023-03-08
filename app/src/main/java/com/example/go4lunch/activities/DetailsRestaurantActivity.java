@@ -26,6 +26,8 @@ import com.example.go4lunch.R;
 import com.example.go4lunch.Utils.DetailsRestaurantFieldsUtils;
 import com.example.go4lunch.dataSource.models.Result;
 import com.example.go4lunch.domain.Callback;
+import com.example.go4lunch.fragments.ListViewFragment;
+import com.example.go4lunch.fragments.MapsFragment;
 import com.example.go4lunch.injection.Injection;
 import com.example.go4lunch.injection.UserViewModelFactory;
 import com.example.go4lunch.model.User;
@@ -51,6 +53,7 @@ public class DetailsRestaurantActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     List<User> userList = new ArrayList<>();
     Callback<List<User>> userCallback;
+    private int fromFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +159,7 @@ public class DetailsRestaurantActivity extends AppCompatActivity {
 
         if (bundle != null) {
             restaurant = (Result) bundle.getSerializable("restaurantSelected");
-
+            fromFragment = (int) bundle.getSerializable("fromFragment");
         }
 
     }
@@ -317,5 +320,17 @@ public class DetailsRestaurantActivity extends AppCompatActivity {
         System.out.println("----------------user restaurant details------------"+users);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(fromFragment==10){
+            Intent intent = new Intent(DetailsRestaurantActivity.this, MainActivity.class);
+            intent.putExtra("fromFragment",fromFragment);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(DetailsRestaurantActivity.this, MainActivity.class);
+            intent.putExtra("fromFragment",fromFragment);
+            startActivity(intent);
+        }
+    }
 }
