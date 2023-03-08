@@ -113,8 +113,10 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
         }
         firebaseAuth = FirebaseAuth.getInstance();
         fromFragment = 0;
+        System.out.println("-------------location map----------"+mLocation+mMap);
 
         if(mLocation!=null){
+
             if(mMap!=null) {
                 configureViewModel();
             }
@@ -126,6 +128,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
 
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -133,6 +136,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+        System.out.println("-------------2 location map----------"+mLocation+mMap);
         //configureViewModel();
 
     }
@@ -274,7 +278,7 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
         ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(requireActivity());
         retrofitViewModel = new ViewModelProvider(this, mViewModelFactory).get(RetrofitViewModel.class);
         retrofitViewModel.init(mLocation.getLatitude(),mLocation.getLongitude());
-        retrofitViewModel.getResults(mLocation.getLatitude(),mLocation.getLongitude());
+        //retrofitViewModel.getResults(mLocation.getLatitude(),mLocation.getLongitude());
         retrofitViewModel.getResults(mLocation.getLatitude(),mLocation.getLongitude()).observe(requireActivity(),this::getResultList);
         System.out.println("---------------------"+mLocation.getLongitude());
     }
@@ -348,11 +352,14 @@ public class MapsFragment extends Fragment  implements OnMapReadyCallback {
                                 if (mLocation != null) {
                                     System.out.println("----------mmap---------"+mMap);
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()), DEFAULT_ZOOM));
+                                    configureViewModel();
                                 } else {
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
                                     mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                                    configureViewModel();
 
                                 }
+                                //configureViewModel();
                             }
                         });
                     }
